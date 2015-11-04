@@ -30,7 +30,7 @@ extern int yydebug;
 
   enum yytokentype
   {
-	  TERM = 1, //терминальные символы входной грамматики
+	  TERM = 1, //терминальные символы грамматики реализации
 	  SP_NON_TERM = 2,
 	  SP_SEM_RULE = 3,
 	  SP_DECL_TERM = 4,
