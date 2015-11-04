@@ -1,0 +1,17 @@
+/*
+ * Parser.h
+ *
+ *  Created on: 11.10.2015
+ *      Author: ugin
+ */
+
+#ifndef PARSER_H_
+#define PARSER_H_
+
+class Parser {
+public:
+	Parser();
+	virtual ~Parser();
+};
+
+#endif /* PARSER_H_ */

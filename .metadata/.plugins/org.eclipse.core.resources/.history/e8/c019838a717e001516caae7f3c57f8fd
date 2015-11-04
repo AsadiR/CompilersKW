@@ -1,0 +1,18 @@
+/*
+ * BlossumMatrix.h
+ *
+ *  Created on: 29.10.2015
+ *      Author: ugin
+ */
+#ifndef BLOSSUMMATRIX_H_
+#define BLOSSUMMATRIX_H_
+
+#include <map>
+
+class BlossumMatrix {
+public:
+	BlossumMatrix(int map);
+	virtual ~BlossumMatrix();
+};
+
+#endif /* BLOSSUMMATRIX_H_ */

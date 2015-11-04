@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Generator2/src/lexer/lex.yy.c&apos; to &apos;lex.yy.cpp&apos;" description="Rename resource &apos;lex.yy.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/lexer/lex.yy.c" name="lex.yy.cpp" stamp="1446401957907" updateReferences="true"/>
+</session>

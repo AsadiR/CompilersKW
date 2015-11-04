@@ -1,0 +1,37 @@
+/*
+ * MultiDimensionalArray.h
+ *
+ *  Created on: 29.10.2015
+ *      Author: ugin
+ */
+
+#ifndef MULTIDIMENSIONALARRAY_H_
+#define MULTIDIMENSIONALARRAY_H_
+
+class MultiDimensionalArray {
+public:
+	int *array;
+	int *str_length_array;
+	int n;
+	MultiDimensionalArray(int* str_length_array, int n);
+	virtual ~MultiDimensionalArray();
+	int getElement(int* indexes) {
+		int index = 0;
+		for (int i=n-1; i>=0; i--) {
+			index += indexes[i]*sliceSize(i);
+		}
+	}
+
+	int sliseSize(int index) {
+		//можно вычеслить один раз а потом использовать
+		int size = 1;
+		for (int i=1; i<index; i++) {
+			size *= str_length_array[i-1];
+		}
+		return size;
+	}
+};
+
+
+
+#endif /* MULTIDIMENSIONALARRAY_H_ */

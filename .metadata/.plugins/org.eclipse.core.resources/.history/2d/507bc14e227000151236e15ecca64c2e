@@ -1,0 +1,20 @@
+
+#import <vector>
+using namespace std;
+
+#ifndef NODE_H_
+#define NODE_H_
+
+extern struct YYSTYPE;
+typedef struct YYSTYPE YYSTYPE;
+class Node {
+public:
+	//дочерние узлы
+	vector<YYSTYPE*> children;
+	//атрибут узла
+	// ATTR attr;
+	Node();
+	virtual ~Node();
+};
+
+#endif /* NODE_H_ */

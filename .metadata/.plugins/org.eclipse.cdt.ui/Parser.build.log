@@ -1,0 +1,30 @@
+
+**** Build of configuration Release for project Parser ****
+
+make all 
+Building file: ../src/lex.yy.c
+Invoking: GCC C Compiler
+gcc -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/lex.yy.d" -MT"src/lex.yy.d" -o"src/lex.yy.o" "../src/lex.yy.c"
+lexer.l: In function ‘main’:
+lexer.l:151:5: warning: format ‘%d’ expects argument of type ‘int’, but argument 2 has type ‘long int’ [-Wformat=]
+lexer.l:143:7: warning: unused variable ‘env’ [-Wunused-variable]
+lexer.l: At top level:
+lex.yy.c:1383:17: warning: ‘yyunput’ defined but not used [-Wunused-function]
+lex.yy.c:1425:16: warning: ‘input’ defined but not used [-Wunused-function]
+lexer.l: In function ‘main’:
+lexer.l:134:2: warning: ignoring return value of ‘fread’, declared with attribute warn_unused_result [-Wunused-result]
+In file included from /usr/include/stdio.h:937:0,
+                 from lex.yy.c:19:
+In function ‘fread’,
+    inlined from ‘main’ at lexer.l:134:2:
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:293:2: warning: call to ‘__fread_chk_warn’ declared with attribute warning: fread called with bigger size * nmemb than length of destination buffer
+  return __fread_chk_warn (__ptr, __bos0 (__ptr), __size, __n, __stream);
+  ^
+Finished building: ../src/lex.yy.c
+ 
+Building file: ../src/tree.c
+Invoking: GCC C Compiler
+gcc -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/tree.d" -MT"src/tree.d" -o"src/tree.o" "../src/tree.c"
+In file included from ../src/tree.c:3:0:
+parser.tab.h:99:14: error: unknown type name ‘yyscan_t’
+make: *** [src/tree.o] Ошибка 1

@@ -1,0 +1,55 @@
+//============================================================================
+// Name        : NeedlmanWucnsh_N.cpp
+// Author      : 
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+//============================================================================
+
+#include <iostream>
+#include <string>
+#include <fstream>
+#include "ArrayWithState.h"
+
+using namespace std;
+
+
+
+int align(string s[], int n, BlossumMatrix* matrix) {
+	ArrayWithState *array = new ArrayWithState(s, n, matrix);
+	return 0;
+}
+
+string *s;
+int n;
+
+void readSeqs(const char *name) {
+	int i;
+	ifstream stream(name);
+	stream >> n;
+	s = new string[n];
+	for (i=0; i<n; i++) {
+		stream >> s[i];
+		cout << s[i] << "\n";
+	}
+	stream.close();
+}
+
+int main() {
+	cout << "\n__START__\n";
+	readSeqs("Seqs.txt");
+
+	ifstream stream("BlossumMatrix.txt");
+
+	BlossumMatrix *matrix = new BlossumMatrix(stream);
+
+	align( s, n, matrix);
+
+
+	stream.close();
+	delete matrix;
+	delete s;
+
+	cout << "\n__END__\n";
+	return 0;
+}

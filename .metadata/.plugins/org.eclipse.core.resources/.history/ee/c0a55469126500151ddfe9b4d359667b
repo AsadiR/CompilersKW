@@ -1,0 +1,24 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+# Add inputs and outputs from these tool invocations to the build variables 
+C_SRCS += \
+../src/flex/lex.yy.c 
+
+OBJS += \
+./src/flex/lex.yy.o 
+
+C_DEPS += \
+./src/flex/lex.yy.d 
+
+
+# Each subdirectory must supply rules for building sources it contributes
+src/flex/%.o: ../src/flex/%.c
+	@echo 'Building file: $<'
+	@echo 'Invoking: GCC C Compiler'
+	gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+
+

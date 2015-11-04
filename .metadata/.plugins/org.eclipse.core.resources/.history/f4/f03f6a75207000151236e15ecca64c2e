@@ -1,0 +1,8 @@
+all:
+	g++ -c -o lex.yy.o lex.yy.c
+	g++ -Wall -MD -pipe -c -o Generator.o Generator.cpp
+	g++ -c -o Parser.o Parser.cpp  
+	g++ -c -o Node.o Node.cpp
+	g++ -s -pipe -o Generator lex.yy.o Generator.o Node.o Parser.o
+
+	

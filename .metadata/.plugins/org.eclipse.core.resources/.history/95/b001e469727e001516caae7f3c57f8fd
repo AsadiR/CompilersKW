@@ -1,0 +1,21 @@
+/*
+ * BlossumMatrix.cpp
+ *
+ *  Created on: 29.10.2015
+ *      Author: ugin
+ */
+
+#include "BlossumMatrix.h"
+
+BlossumMatrix::BlossumMatrix(map<char,int> charToInt, int** matrix) {
+	this.charToInt = charToInt;
+	this.matrix = matrix;
+}
+
+int BlossumMatrix::getValue(char sym1, char sym2) {
+	return charToInt.at()
+}
+
+BlossumMatrix::~BlossumMatrix() {
+	// TODO Auto-generated destructor stub
+}

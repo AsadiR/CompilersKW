@@ -1,0 +1,6 @@
+11:40:25 **** Incremental Build of configuration Debug for project NeedlmanWucnsh_N ****
+make all 
+make: Цель `all' не требует выполнения команд.
+
+11:40:25 Build Finished (took 64ms)
+

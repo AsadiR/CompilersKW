@@ -1,0 +1,57 @@
+/*
+ * MultiDimensionalArray.h
+ *
+ *  Created on: 29.10.2015
+ *      Author: ugin
+ */
+
+
+#ifndef MULTIDIMENSIONALARRAY_H_
+#define MULTIDIMENSIONALARRAY_H_
+#include <cmath>
+#include "BlossumMatrix.h"
+#include <string>
+#include <limits.h>
+
+class ArrayWithState {
+public:
+	int *array; //массив всех элементов
+	int *str_length_array;//массив длин последовательностей
+	int n;//количество последовательностей
+	int *cur_coords;//координаты текущего положения
+	int cur_pos;// текущая обощеная координата
+	BlossumMatrix* matrix;
+	string *sequences;
+
+	ArrayWithState(string *sequences, int* str_length_array, int n, BlossumMatrix &matrix);
+
+	virtual ~ArrayWithState();
+
+	int getElement(int* indexes);
+
+	void setElement(int* indexes, int value);
+
+	int sliseSize(int index);
+
+	int* getAllPrecessors();
+
+	// возвращает максимальный из значение Score при шаге из предшествующих элементов
+	int getMaxValue();
+
+	// возвращает Score элемента с индексом cur_pos при переходе в него из элемента
+	// c индексом prec
+	int getScore(int prec, int shift[]);
+
+	void inc();
+
+private:
+	//служебная функция
+	void specInc(int *k, int shifths[]);
+
+	//возвращает предшествующий элемент заданный массивом сдвигов
+	void getPrec(int shifts[]);
+};
+
+
+
+#endif /* MULTIDIMENSIONALARRAY_H_ */
