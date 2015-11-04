@@ -20,8 +20,8 @@ private:
 	Node* root;
 	int num;
 	vector<YYSTYPE> tokens;
-	YYSTYPE sym;
-	YYSTYPE nextToken();
+	YYSTYPE *sym;
+	YYSTYPE* nextToken();
 	void parseGrammar(Node *parent);
 	void parseInit(Node *parent);
 	void parseTermDecl(Node *parent);

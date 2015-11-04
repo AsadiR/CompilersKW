@@ -54,6 +54,7 @@ int main ()	{
 	printf("Parser...\n");
 	Parser p(tokens);
 	Node *root = p.parse();
+	//cout << root->to_string();
 
 	delete root;
 	cout << "\nEND\n";

@@ -2409,7 +2409,7 @@ void yyfree (void * ptr , yyscan_t yyscanner)
 #line 230 "lexer.l"
 
 
-char const* Domains[] = {
+const char* Domains[] = {
 		  "",
 		  "TERM",
 		  "SP_NON_TERM",

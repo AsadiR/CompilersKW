@@ -228,7 +228,7 @@ __int__|__char__|__cpchar__	 yylval->tag=SP_TYPE; return SP_TYPE;
 
 
 %%
-char const* Domains[] = {
+const char* Domains[] = {
 		  "",
 		  "TERM",
 		  "SP_NON_TERM",

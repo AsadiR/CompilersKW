@@ -7,8 +7,9 @@
 
 #include "Node.h"
 
+
 Node::Node() {
-	// TODO Auto-generated constructor stub
+	token = NULL;
 }
 
 Node::Node(YYSTYPE *token) {
@@ -21,10 +22,24 @@ Node* Node::addChild(Node *child) {
 	return child;
 }
 
+string Node::to_string() {
+	string res = "";
+	for (int i=0; i<(int)children.size(); i++) {
+		if(children[i]->token==NULL){
+			res += children[i]->to_string();
+		} else {
+			string name(Domains[children[i]->token->tag]);
+			res += name + ", ";
+		}
+	}
+	return res;
+}
+
 Node::~Node() {
-	for (int i=0; i<children.size(); i++) {
+	for (int i=0; i<(int)children.size(); i++) {
 		delete children[i];
 	}
 }
+
 
 

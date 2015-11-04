@@ -4,8 +4,11 @@
 #define NODE_H_
 
 #include <vector>
+#include<string>
 #include "lexer/lexer.h"
 using namespace std;
+
+extern char const* Domains[];
 
 
 class Node {
@@ -15,9 +18,10 @@ public:
 	YYSTYPE *token;
 	//атрибут узла
 	// ATTR attr;
+	Node();
 	Node* addChild(Node *child);
 	Node(YYSTYPE *token);
-	Node();
+	string to_string();
 	virtual ~Node();
 };
 
