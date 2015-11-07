@@ -54,7 +54,14 @@ int main ()	{
 	printf("Parser...\n");
 	Parser p(tokens);
 	Node *root = p.parse();
-	//cout << root->to_string();
+
+
+	Node *res = root->findNode(SP_DECL_TERM);
+
+/*	if (res!=NULL)
+		cout << res->to_string();
+	else
+		cout << "Nothing was found\n";*/
 
 	delete root;
 	cout << "\nEND\n";

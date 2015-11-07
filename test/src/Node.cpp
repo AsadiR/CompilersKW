@@ -23,16 +23,36 @@ Node* Node::addChild(Node *child) {
 }
 
 string Node::to_string() {
-	string res = "";
+	stringValue = "";
+	if (this->token!=NULL) {
+		stringValue += string(Domains[this->token->tag]);
+		return stringValue;
+	}
+
 	for (int i=0; i<(int)children.size(); i++) {
 		if(children[i]->token==NULL){
-			res += children[i]->to_string();
+			stringValue += children[i]->to_string();
 		} else {
 			string name(Domains[children[i]->token->tag]);
-			res += name + ", ";
+			stringValue += name;
+			cout << name;
+			if ( i!=(int)children.size()-1 ) stringValue += ", ";
 		}
 	}
-	return res;
+	return stringValue;
+}
+
+Node* Node::findNode(int tag) {
+	int i;
+	if (this->token != NULL) {
+		if (this->token->tag == tag) return this;
+		return NULL;
+	}
+	Node *cur = NULL;
+	for (i=0; i<(int)children.size() && cur==NULL; i++) {
+		cur = children[i]->findNode(tag);
+	}
+	return cur;
 }
 
 Node::~Node() {
