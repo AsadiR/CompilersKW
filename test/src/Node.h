@@ -23,6 +23,42 @@ private:
 	string stringValue;
 };
 
+class MultiAddendum;
+
+class Factor {
+public:
+	//0 - просто значение
+	//0 - выражение в круглых скобках
+	//2 - выражение в квадратных скобках
+	//3 - выражение в фигурных скобках
+	Factor(int mode);
+	~Factor();
+	int mode;
+	vector<MultiAddendum*> m_addendums;
+};
+
+class Addendum {
+public:
+	Addendum();
+	~Addendum();
+	vector<Factor*> factors;
+};
+
+class MultiAddendum {
+public:
+	MultiAddendum();
+	~MultiAddendum();
+	vector<Addendum*> addendums;
+};
+
+class Rule {
+public:
+	Rule(YYSTYPE *rpart, MultiAddendum *lpart);
+	virtual ~Rule();
+	YYSTYPE *rpart;
+	MultiAddendum *lpart;
+};
+
 class Node {
 public:
 	//дочерние узлы
@@ -41,6 +77,9 @@ public:
 
 	//генерирует список объявленных терминалов и помещает их в tdv
 	vector<DeclElem*>* getTermDeclVector(vector<DeclElem*>* tdv);
+	vector<DeclElem*>* getNonTermDeclVector(vector<DeclElem*>* tdv);
+
+	vector<Rule*>* getRules(vector<Rule*>* rv);
 
 	Node(Node *parent, YYSTYPE *token);
 	string to_string();
@@ -60,6 +99,13 @@ private:
 	int index;
 	//TERM or SP_NON_TERM
 	int elemTag;
+};
+
+class RuleFactory {
+public:
+	RuleFactory();
+	virtual ~RuleFactory();
+	Rule* create();
 };
 
 

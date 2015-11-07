@@ -45,8 +45,6 @@ int main ()	{
 			 printf("tag:%d,name:%s \n", tag, Domains[tag]);
 			 printf("value:%s\n", value.value);
 			 tokens.insert(tokens.end(), value);
-
-			 //if (tag == 1 && value.num != NULL) printf("value:%ld\n", *(value.num));
 		}
 	} while ( tag != 0);
 	destroy_scanner(scanner);
@@ -62,6 +60,9 @@ int main ()	{
 	for (std::vector<DeclElem*>::iterator it = vec->begin() ; it != vec->end(); ++it)
 		std::cout << ' ' << (*it)->to_string();
 
+
+	for (std::vector<YYSTYPE>::iterator it = tokens.begin() ; it != tokens.end(); ++it)
+		free((*it).value);
 	delete root;
 	cout << "\nEND\n";
 	return 0;

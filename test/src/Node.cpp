@@ -77,9 +77,40 @@ vector<DeclElem*>* Node::getTermDeclVector(vector<DeclElem*>* tdv) {
 	return tdv;
 }
 
+vector<DeclElem*>* Node::getNonTermDeclVector(vector<DeclElem*>* tdv) {
+	vector<Node*> *nodes = new vector<Node*>();
+	findNodes(SP_DECL_TERM,nodes);
+	if (nodes->size()==0)
+		return tdv;
+	if (nodes->size()>1)
+		throw new runtime_error("More than one SP_DECL_NONTERM!\n");
 
+	cout << "SP_DECL_NONTERM is found\n";
+	Node* term_decl_NT = (*nodes)[0]->parent;
 
+	cout << "sizeOfDeclNonTermArray:" << term_decl_NT->children.size() << "\n";
+	cout << term_decl_NT->to_string() <<"\n";
 
+	DeclElemFactory factory(&(term_decl_NT->children), 1, SP_NON_TERM);
+	while(factory.hasNext) {
+		tdv->insert(tdv->end(), factory.create());
+	}
+	delete nodes;
+	return tdv;
+}
+
+vector<Rule*>* Node::getRules(vector<Rule*>* rv) {
+	vector<Node*> *nodes = new vector<Node*>();
+	findNodes(SP_EQUAL,nodes);
+	int i;
+	for (i=0; i<(int)nodes->size(); i++) {
+		Node* rule_NT = (*nodes)[i]->parent;
+		RuleFactory factory;
+		rv->insert(rv->end(), factory.create());
+	}
+	delete nodes;
+	return rv;
+}
 
 Node::~Node() {
 	for (int i=0; i<(int)children.size(); i++) {
@@ -156,6 +187,48 @@ DeclElem* DeclElemFactory::create() {
 	cout << "declElem is created" << "\n";
 	return res;
 }
+
+RuleFactory::RuleFactory() {
+
+}
+
+RuleFactory::~RuleFactory() {
+
+}
+
+Rule* RuleFactory::create() {
+
+}
+
+Factor::Factor(int mode) {
+	this->mode = mode;
+}
+
+Factor::~Factor() {
+
+}
+
+Addendum::Addendum() {
+
+}
+
+MultiAddendum::MultiAddendum() {
+
+}
+
+MultiAddendum::~MultiAddendum( ) {
+
+}
+
+Rule::Rule(YYSTYPE *rpart, MultiAddendum *lpart) {
+	this->rpart = rpart;
+	this->lpart = lpart;
+}
+
+Rule::~Rule() {
+
+}
+
 
 
 
