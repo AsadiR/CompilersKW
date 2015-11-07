@@ -31,7 +31,8 @@
 		                                                   \
 		yylloc->last_line = extra->cur_line;               \
 		yylloc->last_column = extra->cur_column;           \
-		yylval->num = NULL;                               \
+		yylval->num = NULL;									\
+		yylval->value = NULL;                               \
 	}
 
 void yyerror(YYLTYPE *loc, yyscan_t scanner, long env[26], char *msg)
@@ -47,105 +48,105 @@ WITHOUT_ATTR_TERMS '<'|'>'|','|[A-Z][A-Z_]*
 @TERM					  {
 							yylval->tag = TERM;
 							yylval->mark = TERM;
-							yylval->value = yytext;
+							yylval->value = strdup(yytext);
 							return TERM;
 						  }
 
 @NONTERM				  {
 							yylval->tag = TERM;
 							yylval->mark = SP_NON_TERM;
-							yylval->value = yytext;
+							yylval->value = strdup(yytext);
 							return TERM;
 						  }
 
 @SEMRULE				  {
 							yylval->tag = TERM;
 							yylval->mark = SP_SEM_RULE;
-							yylval->value = yytext;
+							yylval->value = strdup(yytext);;
 							return TERM;
 						  }
 
 '\%term'				  {
 							yylval->tag = TERM;
 							yylval->mark = SP_DECL_TERM;
-							yylval->value = yytext;
+							yylval->value = strdup(yytext);;
 							return TERM;
 						  }
 
 '\%nonterm'	   			  {
 							yylval->tag = TERM;
 							yylval->mark = SP_DECL_NONTERM;
-							yylval->value = yytext;
+							yylval->value = strdup(yytext);;
 							return TERM;
 						  }
 
 '\['	   			  	  {
 							yylval->tag = TERM;
 							yylval->mark = SP_L_SQ_BRACKET;
-							yylval->value = yytext;
+							yylval->value = strdup(yytext);;
 							return TERM;
 						  }
 
 '\]'	   			  	  {
 							yylval->tag = TERM;
 							yylval->mark = SP_R_SQ_BRACKET;
-							yylval->value = yytext;
+							yylval->value = strdup(yytext);;
 							return TERM;
 						  }
 
 '\{'					  {
 							yylval->tag = TERM;
 							yylval->mark = SP_L_BRACE;
-							yylval->value = yytext;
+							yylval->value = strdup(yytext);;
 							return TERM;
 						  }
 						  
 '\}'					  {
 							yylval->tag = TERM;
 							yylval->mark = SP_R_BRACE;
-							yylval->value = yytext;
+							yylval->value = strdup(yytext);;
 							return TERM;
 						  }
 						  
 '\('					  {
 							yylval->tag = TERM;
 							yylval->mark = SP_L_PARENT;
-							yylval->value = yytext;
+							yylval->value = strdup(yytext);;
 							return TERM;
 						  }
 						  
 '\)'					  {
 							yylval->tag = TERM;
 							yylval->mark = SP_R_PARENT;
-							yylval->value = yytext;
+							yylval->value = strdup(yytext);;
 							return TERM;
 						  }
 						  
 '\.'					  {
 							yylval->tag = TERM;
 							yylval->mark = SP_DOT;
-							yylval->value = yytext;
+							yylval->value = strdup(yytext);;
 							return TERM;
 						  }
 						  
 '\|'					  {
 							yylval->tag = TERM;
 							yylval->mark = SP_DIR_SLASH;
-							yylval->value = yytext;
+							yylval->value = strdup(yytext);;
 							return TERM;
 						  }
 						  
 '\='					  {
 							yylval->tag = TERM;
 							yylval->mark = SP_EQUAL;
-							yylval->value = yytext;
+							yylval->value = strdup(yytext);;
 							return TERM;
 						  }	
 						  
 '\*'					  {
 							yylval->tag = TERM;
 							yylval->mark = SP_MULTI;
-							yylval->value = yytext;
+							yylval->value = strdup(yytext);;
 							return TERM;
 						  }
 
@@ -154,28 +155,28 @@ WITHOUT_ATTR_TERMS '<'|'>'|','|[A-Z][A-Z_]*
 '<'			  		      {
 							yylval->tag = TERM;
 							yylval->mark = SP_L_TR_BRACKET;
-							yylval->value = yytext;
+							yylval->value = strdup(yytext);;
 							return TERM;
 						  }
 						  
 '>'			  		      {
 							yylval->tag = TERM;
 							yylval->mark = SP_R_TR_BRACKET;
-							yylval->value = yytext;
+							yylval->value = strdup(yytext);;
 							return TERM;
 						  }	
 						  
 ','			  		      {
 							yylval->tag = TERM;
 							yylval->mark = SP_COMMA;
-							yylval->value = yytext;
+							yylval->value = strdup(yytext);;
 							return TERM;
 						  }
 						  
 '__cpchar__'|'__int__'|'__char__'	 {
 										yylval->tag = TERM;
 										yylval->mark = SP_TYPE;
-										yylval->value = yytext;
+										yylval->value = strdup(yytext);;
 										return TERM;
 									  }							  						  								  
 
@@ -199,7 +200,11 @@ WITHOUT_ATTR_TERMS '<'|'>'|','|[A-Z][A-Z_]*
 						strcat(yylval->value, yytext);
 					}
 
-__int__|__char__|__cpchar__	 yylval->tag=SP_TYPE; return SP_TYPE;
+__int__|__char__|__cpchar__		{
+										yylval->tag = SP_TYPE;
+										yylval->value = strdup(yytext);;
+										return SP_TYPE;
+								}
 
 
 [a-z][a-z_]*		yylval->tag=SP_NON_TERM; return SP_NON_TERM;

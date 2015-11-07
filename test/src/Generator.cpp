@@ -43,8 +43,7 @@ int main ()	{
 		tag = yylex (&value, &coords, scanner );
 		if ( tag != 0) {
 			 printf("tag:%d,name:%s \n", tag, Domains[tag]);
-			 if (tag == SP_SEM_RULE) printf("value:%s\n", value.value);
-			 if (tag == TERM) printf("value:%s\n", value.value);
+			 printf("value:%s\n", value.value);
 			 tokens.insert(tokens.end(), value);
 
 			 //if (tag == 1 && value.num != NULL) printf("value:%ld\n", *(value.num));
@@ -56,12 +55,12 @@ int main ()	{
 	Node *root = p.parse();
 
 
-	Node *res = root->findNode(SP_DECL_TERM);
+	vector<DeclElem*> *vec = new vector<DeclElem*>();
+	root->getTermDeclVector(vec);
 
-/*	if (res!=NULL)
-		cout << res->to_string();
-	else
-		cout << "Nothing was found\n";*/
+
+	for (std::vector<DeclElem*>::iterator it = vec->begin() ; it != vec->end(); ++it)
+		std::cout << ' ' << (*it)->to_string();
 
 	delete root;
 	cout << "\nEND\n";
