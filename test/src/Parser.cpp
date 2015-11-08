@@ -157,7 +157,7 @@ void Parser::parseIdent(Node *parent) {
 			expectedToken(parent->addChild(new Node(parent,sym)), SP_NON_TERM);
 			break;
 		default:
-			throw new runtime_error(
+			throw runtime_error(
 					"UnexpectedTokenInParseIdent:"
 					+string(Domains[sym->tag])
 					+"\n");
@@ -172,7 +172,7 @@ void Parser::expectedToken(Node *parent, int tag) {
 	if (sym->tag == tag) {
 		sym = nextToken();
 	} else {
-		throw new runtime_error(
+		throw runtime_error(
 				"UnexpectedToken:"
 				+string(Domains[sym->tag])
 				+" instead of: "

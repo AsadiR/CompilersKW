@@ -1,43 +1,17 @@
-%term 	 TERM, SEMRULE, NONTERM, '%term', '%nonterm', '[', ']', '{', '}', '(', ')', '.', '|', '=', '*', '<', '>'.
-%nonterm grammar, init, term_decl, nonterm_decl, attribute, rule, multi_addendum, addendum, factor, ident.
-grammar = init rule {rule}.
-init = term_decl nonterm_decl.
+	%term <__cpchar__> @SEMRULE.
+	grammar = [@SEMRULE] init rule {rule} [@SEMRULE].
+	init = [term_decl] [nonterm_decl].
 
-term_decl = '%term' [attribute] TERM {',' [attr]  TERM} '.' .
-nonterm_decl = '%nonterm' [attribute] NONTERM 
-		{ ',' [attribute] NONTERM }  '.' .
+	term_decl = '%term' [attr] @TERM {',' [attr]  @TERM} '.' .
+	nonterm_decl = '%nonterm' [attr] @NONTERM
+			{ ',' [attr] @NONTERM }  '.' .
 
-attribute = '<' ( 'int' | 'char' ) '>'
-rule = NONTERM '=' multi_addendum '.' .
-multi_addendum = addendum {'|' addendum}.
-addendum = factor [SEMRULE] {factor [SEMRULE] }.
-factor = '[' multi_addendum ']' | 
-		  '{' multi_addendum '}' | 
-		   '(' multi_addendum ')' |
-		    ident | .
-ident = TERM | NONTERM .
-
-__int__				yylval->tag=SP_INT_TYPE; return SP_INT_TYPE;
-__char__			yylval->tag=SP_CHAR_TYPE; return SP_CHAR_TYPE;
-__cpchar__			yylval->tag=SP_CONST_CHAR_POINTER_TYPE; return SP_CONST_CHAR_POINTER_TYPE;
-
-'__cpchar__'		      {
-							yylval->tag = TERM;
-							yylval->mark = SP_CONST_CHAR_POINTER_TYPE;
-							yylval->value = yytext;
-							return TERM;
-						  }
-						  
-'__int__'			  	  {
-							yylval->tag = TERM;
-							yylval->mark = SP_INT_TYPE;
-							yylval->value = yytext;
-							return TERM;
-						  }								  						  						  
-
-'__char__'			  	  {
-							yylval->tag = TERM;
-							yylval->mark = SP_CHAR_TYPE;
-							yylval->value = yytext;
-							return TERM;
-						  }
+	attr = '<' ( '__int__' | '__char__' | '__cpchar__' ) '>' .
+	rule = @NONTERM [@SEMRULE]'=' multi_addendum '.' .
+	multi_addendum = addendum {'|' addendum}.
+	addendum = factor [@SEMRULE] {factor [@SEMRULE] }.
+	factor = '[' multi_addendum ']' |
+			  '{' multi_addendum '}' |
+			   '(' multi_addendum ')' |
+			    ident | .
+	ident = @TERM | @NONTERM .

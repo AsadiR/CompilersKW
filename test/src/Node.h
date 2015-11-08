@@ -11,7 +11,6 @@
 extern char const* Domains[];
 using namespace std;
 
-
 class DeclElem {
 public:
 	YYSTYPE *sym;
@@ -27,36 +26,55 @@ class MultiAddendum;
 
 class Factor {
 public:
-	//0 - просто значение
-	//0 - выражение в круглых скобках
-	//2 - выражение в квадратных скобках
-	//3 - выражение в фигурных скобках
+	//виды режимов:
+	//0 - пустой
+	//1 - просто значение
+	//2 - выражение в круглых скобках
+	//3 - выражение в квадратных скобках
+	//4 - выражение в фигурных скобках
+	Factor(int mode, MultiAddendum *m_addendum);
+	Factor(int mode, YYSTYPE *ident);
 	Factor(int mode);
 	~Factor();
+	string to_string();
 	int mode;
-	vector<MultiAddendum*> m_addendums;
+	YYSTYPE *semRule;
+	MultiAddendum* m_addendum;
+	YYSTYPE *ident;
+private:
+	string strValue;
 };
 
 class Addendum {
 public:
 	Addendum();
 	~Addendum();
+	string to_string();
 	vector<Factor*> factors;
+private:
+	string strValue;
 };
 
 class MultiAddendum {
 public:
 	MultiAddendum();
 	~MultiAddendum();
+	string to_string();
 	vector<Addendum*> addendums;
+private:
+	string strValue;
 };
 
 class Rule {
 public:
-	Rule(YYSTYPE *rpart, MultiAddendum *lpart);
+	Rule(YYSTYPE *lpart, MultiAddendum *rpart, YYSTYPE *semRule);
 	virtual ~Rule();
-	YYSTYPE *rpart;
-	MultiAddendum *lpart;
+	YYSTYPE *lpart;
+	MultiAddendum *rpart;
+	YYSTYPE *semRule;
+	string to_string();
+private:
+	string strValue;
 };
 
 class Node {
@@ -103,9 +121,13 @@ private:
 
 class RuleFactory {
 public:
-	RuleFactory();
+	Node *ruleNode;
+	RuleFactory(Node *ruleNode);
 	virtual ~RuleFactory();
 	Rule* create();
+	MultiAddendum* createMultiAddendum(Node* parent);
+	Addendum* createAddendum(Node* parent);
+	Factor* createFactor(Node *parent);
 };
 
 

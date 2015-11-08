@@ -12,7 +12,7 @@ extern char const* Domains[];
 
 int main ()	{
 	FILE *fp;
-	const char* fname = "firstGrammar.txt";
+	const char* fname = "test.txt";
 	//const char* fname = "grammar.txt";
 	if ((fp=fopen(fname, "r+"))==NULL) {
 		printf("Cannot open file.");
@@ -53,11 +53,17 @@ int main ()	{
 	Node *root = p.parse();
 
 
-	vector<DeclElem*> *vec = new vector<DeclElem*>();
+	//тест извлечения объвленных символов
+/*	vector<DeclElem*> *vec = new vector<DeclElem*>();
 	root->getTermDeclVector(vec);
 
-
 	for (std::vector<DeclElem*>::iterator it = vec->begin() ; it != vec->end(); ++it)
+		std::cout << ' ' << (*it)->to_string();*/
+
+	vector<Rule*> *vec = new vector<Rule*>();
+	root->getRules(vec);
+
+	for (std::vector<Rule*>::iterator it = vec->begin() ; it != vec->end(); ++it)
 		std::cout << ' ' << (*it)->to_string();
 
 
