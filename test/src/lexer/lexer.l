@@ -1,7 +1,7 @@
 
 %option reentrant noyywrap bison-bridge bison-locations
 %option extra-type="struct Extra *"
-
+%option nounput
 %{
 
 #include <stdio.h>
@@ -173,12 +173,12 @@ WITHOUT_ATTR_TERMS '<'|'>'|','|[A-Z][A-Z_]*
 							return TERM;
 						  }
 						  
-'__cpchar__'|'__int__'|'__char__'	 {
-										yylval->tag = TERM;
-										yylval->mark = SP_TYPE;
-										yylval->value = strdup(yytext);;
-										return TERM;
-									  }							  						  								  
+@TYPE	 {
+						yylval->tag = TERM;
+						yylval->mark = SP_TYPE;
+						yylval->value = strdup(yytext);;
+						return TERM;
+		 }							  						  								  
 
 
 \%\{				{

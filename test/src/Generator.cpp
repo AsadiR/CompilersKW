@@ -5,6 +5,7 @@
 #include "lexer/lexer.h"
 #include "Parser.h"
 #include <iostream>
+#include "Grammar.h"
 
 using namespace std;
 
@@ -12,7 +13,7 @@ extern char const* Domains[];
 
 int main ()	{
 	FILE *fp;
-	const char* fname = "test.txt";
+	const char* fname = "firstGrammar.txt";
 	//const char* fname = "grammar.txt";
 	if ((fp=fopen(fname, "r+"))==NULL) {
 		printf("Cannot open file.");
@@ -47,29 +48,18 @@ int main ()	{
 			 tokens.insert(tokens.end(), value);
 		}
 	} while ( tag != 0);
-	destroy_scanner(scanner);
 	printf("Parser...\n");
 	Parser p(tokens);
 	Node *root = p.parse();
 
 
-	//тест извлечения объвленных символов
-/*	vector<DeclElem*> *vec = new vector<DeclElem*>();
-	root->getTermDeclVector(vec);
-
-	for (std::vector<DeclElem*>::iterator it = vec->begin() ; it != vec->end(); ++it)
-		std::cout << ' ' << (*it)->to_string();*/
-
-	vector<Rule*> *vec = new vector<Rule*>();
-	root->getRules(vec);
-
-	for (std::vector<Rule*>::iterator it = vec->begin() ; it != vec->end(); ++it)
-		std::cout << ' ' << (*it)->to_string();
-
+	Grammar gr(root);
+	cout << gr.to_string();
 
 	for (std::vector<YYSTYPE>::iterator it = tokens.begin() ; it != tokens.end(); ++it)
 		free((*it).value);
 	delete root;
+	destroy_scanner(scanner);
 	cout << "\nEND\n";
 	return 0;
 }
