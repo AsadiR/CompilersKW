@@ -202,12 +202,16 @@ WITHOUT_ATTR_TERMS '<'|'>'|','|[A-Z][A-Z_]*
 
 __int__|__char__|__cpchar__		{
 										yylval->tag = SP_TYPE;
-										yylval->value = strdup(yytext);;
+										yylval->value = strdup(yytext);
 										return SP_TYPE;
 								}
 
 
-[a-z][a-z_]*		yylval->tag=SP_NON_TERM; return SP_NON_TERM;
+[a-z][a-z_]*		{
+						yylval->tag=SP_NON_TERM;
+						yylval->value = strdup(yytext);
+						return SP_NON_TERM;
+					}
 
 
 

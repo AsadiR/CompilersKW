@@ -56,6 +56,13 @@ int main ()	{
 	Grammar gr(root);
 	cout << gr.to_string();
 
+	cout << "first set test:" << "\n";
+	Rule *r = gr.rules->at(0);
+	set<int> &s = r->firstSet;
+	for (std::set<int>::iterator it = s.begin() ; it != s.end(); ++it)
+		cout << (*it!=-1 ? Domains[*it] : "empty") << "\n";
+
+
 	for (std::vector<YYSTYPE>::iterator it = tokens.begin() ; it != tokens.end(); ++it)
 		free((*it).value);
 	delete root;
