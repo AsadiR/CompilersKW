@@ -130,6 +130,8 @@ public:
 	string& to_string();
 	map<string,int>* strToInt;
 	vector<Rule*>* rules;
+	YYSTYPE *initSemRule;
+	YYSTYPE *finalSemRule;
 private:
 	vector<Rule*>* getRules(vector<Rule*>* rv);
 	vector<DeclElem*>* getNonTermDeclVector(vector<DeclElem*>* tdv);

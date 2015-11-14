@@ -6,7 +6,9 @@
 #define YY_TYPEDEF_YY_SCANNER_T
 typedef void *yyscan_t;
 #endif
-
+#include <string>
+#include <iostream>
+using namespace std;
 struct Extra {
 	int continued;
 	int cur_line;
@@ -27,7 +29,6 @@ extern int yydebug;
 /* Token type.  */
 #ifndef YYTOKENTYPE
 #define YYTOKENTYPE
-
   enum yytokentype
   {
 	  TERM = 1, //терминальные символы грамматики реализации
@@ -49,13 +50,16 @@ extern int yydebug;
 	  SP_TYPE = 17,
 	  SP_L_TR_BRACKET = 18,
 	  SP_R_TR_BRACKET = 19,
-	  SP_CONST_CHAR_POINTER_TYPE = 20,
-	  SP_INT_TYPE = 21,
-	  SP_CHAR_TYPE = 22
+	  NUMBER = 20,
+	  PRINT = 21,
+	  PLUS = 22,
+	  MINUS = 23,
+	  SEMICOLON =24,
+	  MULTI = 25,
+	  DIVIDE = 26
   };
-
   union TYPES {
-	  const char* __cpchar__;
+	  string  *__string__;
 	  int __int__;
 	  char __char__;
   };
@@ -67,10 +71,9 @@ extern int yydebug;
 typedef struct YYSTYPE YYSTYPE;
 struct YYSTYPE
 {
-	char *value;
-	long *num;
 	int tag;
 	int mark;
+	union TYPES *attr;
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

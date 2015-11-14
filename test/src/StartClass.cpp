@@ -6,32 +6,21 @@
 #include "Parser.h"
 #include <iostream>
 #include "Grammar.h"
+#include <typeinfo>
+#include <fstream>
 
 using namespace std;
 
 extern char const* Domains[];
 
 int main ()	{
-	FILE *fp;
-	const char* fname = "firstGrammar.txt";
-	if ((fp=fopen(fname, "r+"))==NULL) {
-		printf("Cannot open file.");
-		return 1;
-	}
+	unsigned int i;
+	const char* filename = "inputGrammar.txt";
+	std::ifstream in(filename);
+	std::string contents((istreambuf_iterator<char>(in)), istreambuf_iterator<char>());
+	char *buf = (char*)contents.c_str();
 
-	fseek(fp , 0 , SEEK_END);
-	long lSize = ftell(fp);
-	rewind(fp);
-
-	char *buf = (char*)malloc(lSize*sizeof(char)+1);
-	unsigned int i = 0;
-	for (i=0; i<lSize+1; i++) {
-		buf[i] = 0;
-	}
-
-	fread(buf, 1, lSize, fp);
-
-	printf("%s\n", buf);
+	cout << string(buf);
 
 	int tag ;
 	YYLTYPE coords ;
@@ -40,17 +29,18 @@ int main ()	{
 	vector<YYSTYPE*> tokens;
 
 	struct Extra extra;
-	printf("Lexer...\n");
+	cout << "Lexer...\n";
 	init_scanner(buf, &scanner, &extra);
 	do
 	{
 		YYSTYPE *value = new YYSTYPE;
 		tag = yylex (value, &coords, scanner);
 		printf("tag:%d,name:%s \n", tag, Domains[tag]);
-		printf("value:%s\n", value->value);
+		if (value->attr!=NULL && typeid(*(value->attr->__string__))== typeid(string))
+			cout << "attr: " << *(value->attr->__string__) <<"\n";
 		tokens.insert(tokens.end(), value);
 	} while ( tag != 0);
-	printf("Parser...\n");
+	cout << "Parser...\n";
 	Parser p(tokens);
 	Node *root = p.parse();
 
@@ -69,11 +59,14 @@ int main ()	{
 
 
 	for (vector<YYSTYPE*>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
-		if ((*it)->value!=NULL) free((*it)->value);
+		if ((*it)->attr!=NULL) {
+			TYPES *t = (*it)->attr;
+			if (t->__string__!=NULL) delete t->__string__;
+			delete t;
+		}
 		delete(*it);
 	}
 	delete root;
-	free(buf);
 	destroy_scanner(scanner);
 	cout << "\nEND\n";
 	return 0;

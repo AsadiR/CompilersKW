@@ -1,4 +1,5 @@
-	%term <__cpchar__> @SEMRULE.
+	%term <__string__> @SEMRULE, <__string__> @TYPE, 
+		<__string__> @NONTERM, <__string__> @TERM.
 	grammar = [@SEMRULE] init rule {rule} [@SEMRULE].
 	init = [term_decl] [nonterm_decl].
 

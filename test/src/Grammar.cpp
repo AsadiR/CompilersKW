@@ -14,6 +14,13 @@ Grammar::Grammar(Node *root) {
 	nonTermDecl = getNonTermDeclVector( new vector<DeclElem*>() );
 	strToInt = boundNonTerms( new map<string,int>() );
 	getFirst();
+	bool condInit = root->children[0]->token!=NULL
+			&& root->children[0]->token->tag==SP_SEM_RULE;
+	initSemRule = (condInit ? root->children[0]->token : NULL);
+	unsigned int l = root->children.size();
+	bool condFinal = root->children[l-1]->token!=NULL
+			&& root->children[l-1]->token->tag==SP_SEM_RULE;
+	finalSemRule = (condFinal ? root->children[l-1]->token : NULL);
 }
 
 Grammar::~Grammar() {
@@ -116,8 +123,8 @@ vector<Rule*>* Grammar::getRules(vector<Rule*>* rv) {
 map<string, int>* Grammar::boundNonTerms(map<string, int>* strToInt) {
 	unsigned int i;
 	for (i=0; i< rules->size(); i++) {
-		string nonTermName(rules->at(i)->lpart->value);
-		(*strToInt)[nonTermName] = i;
+		string *nonTermName = rules->at(i)->lpart->attr->__string__;
+		(*strToInt)[*nonTermName] = i;
 	}
 	return strToInt;
 }
@@ -140,7 +147,7 @@ void Grammar::getFirst() {
 DeclElem::DeclElem(YYSTYPE* sym, YYSTYPE* type) {
 	this->sym = sym;
 	if (type != NULL ) {
-		this->attr = string(type->value);
+		this->attr = *(type->attr->__string__);
 	}
 }
 
@@ -217,14 +224,17 @@ RuleFactory::~RuleFactory() {
 }
 
 Rule* RuleFactory::create() {
-	cout << "try to create rule ..." << "\n";
-	int i=0;
+	unsigned int i=0;
+	cout << "try to create rule:\n";
 	if (ruleNode->children[i]->token->tag!=SP_NON_TERM)
 		throw runtime_error("GenerationError! Expected SP_NON_TERM!\n");
+	cout << "	leftPart:" << *(ruleNode->children[i]->token->attr->__string__) <<  "\n";
 	YYSTYPE *lpart = ruleNode->children[i]->token;
 	i++;
 	YYSTYPE *semR = NULL;
-	if (ruleNode->children[i]->token->tag==SP_SEM_RULE) {
+	if (i<ruleNode->children.size()
+			&& ruleNode->children[i]->token!=NULL
+			&& ruleNode->children[i]->token->tag==SP_SEM_RULE) {
 		semR = ruleNode->children[i]->token;
 		i++;
 	}
@@ -265,11 +275,10 @@ Addendum* RuleFactory::createAddendum(Node* parent) {
 		if (i < (int)parent->children.size()
 				&& parent->children[i]->token!= NULL
 				&& parent->children[i]->token->tag==SP_SEM_RULE) {
-			factor->semRule = ruleNode->children[i]->token;
+			factor->semRule = parent->children[i]->token;
 			i++;
 		}
 		a->factors.insert(a->factors.end(), factor);
-
 	} while (i < (int)parent->children.size());
 	cout << "addendum created" << "\n";
 	return a;
@@ -352,7 +361,7 @@ bool Factor::getFirst() {
 	}
 	if (mode==1) {
 		if (ident->tag==SP_NON_TERM) {
-			int index = grammar->strToInt->at(string(ident->value));
+			int index = grammar->strToInt->at(*(ident->attr->__string__));
 			Rule *r = grammar->rules->at(index);
 			firstSet.insert(r->firstSet.begin(), r->firstSet.end());
 		} else if(ident->tag==TERM) {
