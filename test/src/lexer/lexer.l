@@ -230,7 +230,7 @@ __int__|__char__|__cpchar__		{
 \,					yylval->tag=SP_COMMA; return SP_COMMA;
 \<					yylval->tag=SP_L_TR_BRACKET; return SP_L_TR_BRACKET;
 \>					yylval->tag=SP_R_TR_BRACKET; return SP_R_TR_BRACKET;
-
+<<EOF>>				yylval->tag=0; return 0;
 .					{
 						printf("ERROR AT %d:%d - %d:%d\n",  yylloc->first_line, yylloc->first_column, yylloc->last_line, yylloc->last_column);
 					}
@@ -238,7 +238,7 @@ __int__|__char__|__cpchar__		{
 
 %%
 const char* Domains[] = {
-		  "",
+		  "<<EOF>>",
 		  "TERM",
 		  "SP_NON_TERM",
 		  "SP_SEM_RULE",

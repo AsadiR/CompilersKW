@@ -11,10 +11,10 @@ using namespace std;
 
 extern char const* Domains[];
 
-Parser::Parser(vector<YYSTYPE> t) {
+Parser::Parser(vector<YYSTYPE*> t) {
 	num = 0;
 	this->tokens = t;
-	sym = &tokens[0];
+	sym = tokens[0];
 	root = new Node(NULL);
 	cout << "Parser Created\n";
 	cout << "firstSym:" << Domains[sym->tag] << "\n";
@@ -22,6 +22,8 @@ Parser::Parser(vector<YYSTYPE> t) {
 
 Node* Parser::parse() {
 	parseGrammar(root);
+	if (sym->tag!=0)
+		throw runtime_error("expected EOF!");
 	return root;
 }
 
@@ -165,7 +167,10 @@ void Parser::parseIdent(Node *parent) {
 }
 
 YYSTYPE* Parser::nextToken() {
-	return &tokens[++num];
+	if (num<tokens.size())
+		return tokens[++num];
+	else
+		return tokens[num];
 }
 
 void Parser::expectedToken(Node *parent, int tag) {

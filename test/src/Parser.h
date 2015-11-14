@@ -19,8 +19,8 @@ using namespace std;
 class Parser {
 private:
 	Node* root;
-	int num;
-	vector<YYSTYPE> tokens;
+	unsigned int num;
+	vector<YYSTYPE*> tokens;
 	YYSTYPE *sym;
 	YYSTYPE* nextToken();
 	void parseGrammar(Node *parent);
@@ -37,7 +37,7 @@ private:
 
 public:
 	Node* parse();
-	Parser(vector<YYSTYPE> t);
+	Parser(vector<YYSTYPE*> t);
 	virtual ~Parser();
 };
 

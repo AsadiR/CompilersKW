@@ -14,58 +14,66 @@ extern char const* Domains[];
 int main ()	{
 	FILE *fp;
 	const char* fname = "firstGrammar.txt";
-	//const char* fname = "grammar.txt";
 	if ((fp=fopen(fname, "r+"))==NULL) {
 		printf("Cannot open file.");
 		return 1;
 	}
-	char buf[1024];
-	int i = 0;
-	for (i = 0; i<1024; i++) {
+
+	fseek(fp , 0 , SEEK_END);
+	long lSize = ftell(fp);
+	rewind(fp);
+
+	char *buf = (char*)malloc(lSize*sizeof(char)+1);
+	unsigned int i = 0;
+	for (i=0; i<lSize+1; i++) {
 		buf[i] = 0;
 	}
 
-	fread(buf, 1024*sizeof(char), 1024*sizeof(char), fp);
+	fread(buf, 1, lSize, fp);
 
 	printf("%s\n", buf);
 
 	int tag ;
-	YYSTYPE value;
 	YYLTYPE coords ;
 	yyscan_t scanner;
 
-	vector<YYSTYPE> tokens;
+	vector<YYSTYPE*> tokens;
 
 	struct Extra extra;
 	printf("Lexer...\n");
 	init_scanner(buf, &scanner, &extra);
 	do
 	{
-		tag = yylex (&value, &coords, scanner );
-		if ( tag != 0) {
-			 printf("tag:%d,name:%s \n", tag, Domains[tag]);
-			 printf("value:%s\n", value.value);
-			 tokens.insert(tokens.end(), value);
-		}
+		YYSTYPE *value = new YYSTYPE;
+		tag = yylex (value, &coords, scanner);
+		printf("tag:%d,name:%s \n", tag, Domains[tag]);
+		printf("value:%s\n", value->value);
+		tokens.insert(tokens.end(), value);
 	} while ( tag != 0);
 	printf("Parser...\n");
 	Parser p(tokens);
 	Node *root = p.parse();
 
-
 	Grammar gr(root);
 	cout << gr.to_string();
 
 	cout << "first set test:" << "\n";
-	Rule *r = gr.rules->at(0);
-	set<int> &s = r->firstSet;
-	for (std::set<int>::iterator it = s.begin() ; it != s.end(); ++it)
-		cout << (*it!=-1 ? Domains[*it] : "empty") << "\n";
+	for (i=0;i<gr.rules->size(); i++) {
+		Rule *r = gr.rules->at(i);
+		set<int> &s = r->firstSet;
+		for (std::set<int>::iterator it = s.begin() ; it != s.end(); ++it) {
+			cout << (*it!=-1 ? string(Domains[*it])+" " : "empty ");
+		}
+		cout  << "\n";
+	}
 
 
-	for (std::vector<YYSTYPE>::iterator it = tokens.begin() ; it != tokens.end(); ++it)
-		free((*it).value);
+	for (vector<YYSTYPE*>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+		if ((*it)->value!=NULL) free((*it)->value);
+		delete(*it);
+	}
 	delete root;
+	free(buf);
 	destroy_scanner(scanner);
 	cout << "\nEND\n";
 	return 0;
