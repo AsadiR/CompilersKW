@@ -13,6 +13,7 @@
 #include <string>
 #include <iostream>
 #include <stdexcept>
+#include <sstream>
 #include "lexer/lexer.h"
 #include "Node.h"
 extern char const* Domains[];
@@ -127,21 +128,21 @@ class Grammar {
 public:
 	Grammar(Node *root);
 	virtual ~Grammar();
-	string& to_string();
+	string to_string();
 	map<string,int>* strToInt;
 	vector<Rule*>* rules;
+	map<string,DeclElem*>* termDecl;
+	map<string,DeclElem*>* nonTermDecl;
 	YYSTYPE *initSemRule;
 	YYSTYPE *finalSemRule;
 private:
 	vector<Rule*>* getRules(vector<Rule*>* rv);
-	vector<DeclElem*>* getNonTermDeclVector(vector<DeclElem*>* tdv);
-	vector<DeclElem*>* getTermDeclVector(vector<DeclElem*>* tdv);
+	map<string,DeclElem*>* getNonTermDeclMap(map<string,DeclElem*>* tdm);
+	map<string,DeclElem*>* getTermDeclMap(map<string,DeclElem*>* tdm);
 	map<string,int>* boundNonTerms(map<string,int> *strToInt);
 	void getFirst();
 	Node *root;
-	vector<DeclElem*>* termDecl;
-	vector<DeclElem*>* nonTermDecl;
-	string strValue;
+	stringstream strValue;
 };
 
 #endif /* GRAMMAR_H_ */

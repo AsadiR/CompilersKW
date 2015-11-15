@@ -10,8 +10,8 @@
 Grammar::Grammar(Node *root) {
 	this->root = root;
 	rules = getRules( new vector<Rule*>() );
-	termDecl = getTermDeclVector( new vector<DeclElem*>() );
-	nonTermDecl = getNonTermDeclVector( new vector<DeclElem*>() );
+	termDecl = getTermDeclMap( new map<string,DeclElem*>() );
+	nonTermDecl = getNonTermDeclMap( new map<string,DeclElem*>() );
 	strToInt = boundNonTerms( new map<string,int>() );
 	getFirst();
 	bool condInit = root->children[0]->token!=NULL
@@ -27,41 +27,45 @@ Grammar::~Grammar() {
 	unsigned int i;
 	for (i=0; i<rules->size(); i++)
 		delete rules->at(i);
-	for (i=0; i<termDecl->size(); i++)
-		delete termDecl->at(i);
-	for (i=0; i<nonTermDecl->size(); i++)
-		delete nonTermDecl->at(i);
+	for (map<string,DeclElem*>::iterator it=termDecl->begin() ; it!=termDecl->end(); ++it)
+		delete (*it).second;
+	for (map<string,DeclElem*>::iterator it=nonTermDecl->begin() ; it!=nonTermDecl->end(); ++it)
+		delete (*it).second;
 	delete rules;
 	delete termDecl;
 	delete nonTermDecl;
 	delete strToInt;
 }
 
-string& Grammar::to_string() {
-	unsigned int i;
+string Grammar::to_string() {
 	unsigned int n;
-	strValue = "";
+	unsigned int i;
+	map<string,DeclElem*>::iterator it;
+	strValue.clear();
+
 	n = termDecl->size();
-	if (n!=0) strValue += "%termDecl ";
-	for (i=0; i<n; i++)
-		strValue += termDecl->at(i)->to_string() + (i!=n-1?",":".\n");
+	if (n!=0) strValue << "%termDecl ";
+	for (it=termDecl->begin(),i=0; it!=termDecl->end(); ++it,i++)
+		strValue << (*it).second->to_string() << (i!=n-1?",":".\n");
+
 	n = nonTermDecl->size();
-	if (n!=0) strValue += "%nonTermDecl ";
-	for (i=0; i<n; i++)
-		strValue += nonTermDecl->at(i)->to_string() + (i!=n-1?",":".\n");
+	if (n!=0) strValue << "%nonTermDecl ";
+	for (it=nonTermDecl->begin(),i=0 ; it!=nonTermDecl->end(); ++it,i++)
+		strValue << (*it).second->to_string() << (i!=n-1?",":".\n");
+
 	n = rules->size();
 	for (i=0; i<n; i++)
-		strValue += rules->at(i)->to_string();
-	return strValue;
+		strValue << rules->at(i)->to_string();
+	return strValue.str();
 }
 
-vector<DeclElem*>* Grammar::getTermDeclVector(vector<DeclElem*>* tdv) {
+map<string,DeclElem*>* Grammar::getTermDeclMap(map<string,DeclElem*>* tdm) {
 	vector<Node*> *nodes = new vector<Node*>();
 	root->findNodes(SP_DECL_TERM,nodes);
 
 	if (nodes->size()==0) {
 		delete nodes;
-		return tdv;
+		return tdm;
 	}
 
 	if (nodes->size()>1)
@@ -75,19 +79,20 @@ vector<DeclElem*>* Grammar::getTermDeclVector(vector<DeclElem*>* tdv) {
 
 	DeclElemFactory factory(&(term_decl_NT->children), 1, TERM);
 	while(factory.hasNext) {
-		tdv->insert(tdv->end(), factory.create());
+		DeclElem *de = factory.create();
+		tdm->insert(pair<string,DeclElem*>(*(de->sym->attr->__string__),de));
 	}
 	delete nodes;
-	return tdv;
+	return tdm;
 }
 
-vector<DeclElem*>* Grammar::getNonTermDeclVector(vector<DeclElem*>* tdv) {
+map<string,DeclElem*>* Grammar::getNonTermDeclMap(map<string,DeclElem*>* tdm) {
 	vector<Node*> *nodes = new vector<Node*>();
 	root->findNodes(SP_DECL_NONTERM,nodes);
 
 	if (nodes->size()==0) {
 		delete nodes;
-		return tdv;
+		return tdm;
 	}
 
 	if (nodes->size()>1)
@@ -101,10 +106,11 @@ vector<DeclElem*>* Grammar::getNonTermDeclVector(vector<DeclElem*>* tdv) {
 
 	DeclElemFactory factory(&(term_decl_NT->children), 1, SP_NON_TERM);
 	while(factory.hasNext) {
-		tdv->insert(tdv->end(), factory.create());
+		DeclElem *de = factory.create();
+		tdm->insert(pair<string,DeclElem*>(*(de->sym->attr->__string__),de));
 	}
 	delete nodes;
-	return tdv;
+	return tdm;
 }
 
 vector<Rule*>* Grammar::getRules(vector<Rule*>* rv) {

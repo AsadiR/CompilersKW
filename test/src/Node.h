@@ -9,9 +9,9 @@
 #include <stdexcept>
 #include "lexer/lexer.h"
 #include <set>
+#include <sstream>
 extern char const* Domains[];
 using namespace std;
-
 
 class Node {
 public:
@@ -30,10 +30,10 @@ public:
 	void findNodes(int tag, vector<Node*>* listOfNodes);
 
 	Node(Node *parent, YYSTYPE *token);
-	string& to_string();
+	string to_string();
 	virtual ~Node();
 private:
-	string stringValue;
+	void buildStr(Node *parent, stringstream *res, string ident);
 };
 
 #endif /* NODE_H_ */

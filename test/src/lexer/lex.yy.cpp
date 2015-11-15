@@ -1393,15 +1393,19 @@ case 57:
 YY_RULE_SETUP
 #line 326 "lexer.l"
 {
-						printf("ERROR AT %d:%d - %d:%d\n",  yylloc->first_line, yylloc->first_column, yylloc->last_line, yylloc->last_column);
+						yylval->tag = ERROR;
+						yylval->attr = new TYPES;
+						string s = string ("ERROR AT") + tokenToStr(yylval, yylloc);
+						yylval->attr->__string__ = new string(s.c_str());
+						return ERROR;
 					}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 331 "lexer.l"
+#line 335 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 1405 "lex.yy.cpp"
+#line 1409 "lex.yy.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2540,7 +2544,7 @@ void yyfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 331 "lexer.l"
+#line 335 "lexer.l"
 
 
 const char* Domains[] = {
@@ -2594,12 +2598,22 @@ const char* Domains[] = {
 		  "MINUS",
 		  /*24*/
 		  "SEMICOLON",
-		  /*24*/
+		  /*25*/
 		  "MULTI",
-		  /*24*/
-		  "DIVIDE"
+		  /*26*/
+		  "DIVIDE",
+		  /*27*/
+		  "ERROR"
 				  
 };
+
+string tokenToStr(YYSTYPE *token, YYLTYPE *coord) {
+	stringstream ss;
+	ss << string(Domains[token->tag])
+				<< "( " << coord->first_line << "," << coord->first_column << " - "
+				<< coord->last_line << "," << coord->last_column << " )";
+	return ss.str();
+}
 
 void init_scanner(char *program, yyscan_t *scanner, struct Extra *extra)
 {

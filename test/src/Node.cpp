@@ -23,22 +23,31 @@ Node* Node::addChild(Node *child) {
 	return child;
 }
 
-string& Node::to_string() {
-	stringValue = "";
-	if (this->token!=NULL) {
-		stringValue += string(Domains[this->token->tag]);
-		return stringValue;
-	}
 
-	for (int i=0; i<(int)children.size(); i++) {
-		if(children[i]->token==NULL){
-			stringValue += children[i]->to_string();
-		} else {
-			string name(Domains[children[i]->token->tag]);
-			stringValue += name + ", ";
-		}
+void Node::buildStr(Node *parent, stringstream *res, string ident) {
+	bool isItRoot = (parent == NULL);
+	unsigned int l = (isItRoot? 0 : parent->children.size());
+	bool isItLast = (l!=0 && (parent->children.at(l-1)==this));
+
+
+	if (parent == NULL) {
+		(*res) << (token==NULL ? "NONTERM" : Domains[token->tag]) << "\n";
+	} else {
+		(*res) << ident << (isItLast ? "└╴" : "├╴")
+				<< (token==NULL ? "NONTERM" : Domains[token->tag]) << "\n";
+		if (isItLast && this->children.empty())
+			(*res) << ident << "\n";
+		ident += string(isItLast ? "  " : "│ ");
 	}
-	return stringValue;
+	for (unsigned int i = 0; i<children.size(); i++)
+		this->children[i]->buildStr(this, res, ident);
+}
+
+string Node::to_string() {
+	stringstream res;
+	string ident;
+	buildStr(NULL, &res, ident);
+	return res.str();
 }
 
 void Node::findNodes(int tag, vector<Node*>* listOfNodes) {

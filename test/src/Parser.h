@@ -9,10 +9,11 @@
 #define PARSER_H_
 
 #include "lexer/lexer.h"
+#include "Node.h"
 #include <iostream>
 #include <vector>
 #include <stdexcept>
-#include "Node.h"
+
 
 using namespace std;
 

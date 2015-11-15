@@ -8,6 +8,7 @@ typedef void *yyscan_t;
 #endif
 #include <string>
 #include <iostream>
+#include <sstream>
 using namespace std;
 struct Extra {
 	int continued;
@@ -17,6 +18,7 @@ struct Extra {
 
 void init_scanner(char *program, yyscan_t *scanner, struct Extra *extra);
 void destroy_scanner(yyscan_t scanner);
+
 
 
 #ifndef YYDEBUG
@@ -56,7 +58,8 @@ extern int yydebug;
 	  MINUS = 23,
 	  SEMICOLON =24,
 	  MULTI = 25,
-	  DIVIDE = 26
+	  DIVIDE = 26,
+	  ERROR = 27
   };
   union TYPES {
 	  string  *__string__;
@@ -93,6 +96,7 @@ struct YYLTYPE
 # define YYLTYPE_IS_TRIVIAL 1
 #endif
 int yylex(YYSTYPE * yylval_param, YYLTYPE * yylloc_param , yyscan_t yyscanner);
+string tokenToStr(YYSTYPE *token, YYLTYPE *coord);
 
 #endif
 
