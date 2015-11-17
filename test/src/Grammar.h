@@ -25,13 +25,12 @@ class Grammar;
 class DeclElem {
 public:
 	YYSTYPE *sym;
-	string attr;
+	YYSTYPE *attrTypeToken;
 	DeclElem(YYSTYPE* sym, YYSTYPE* type);
 	virtual ~DeclElem();
-	string& to_string();
+	string to_string();
 private:
 	set<int> firstSet;
-	string stringValue;
 };
 
 class MultiAddendum;
@@ -48,7 +47,7 @@ public:
 	Factor(int mode, YYSTYPE *ident, Grammar *grammar);
 	Factor(int mode, Grammar *grammar);
 	~Factor();
-	string& to_string();
+	string to_string();
 	bool getFirst();
 	set<int> firstSet;
 	int mode;
@@ -56,32 +55,26 @@ public:
 	MultiAddendum* m_addendum;
 	YYSTYPE *ident;
 	Grammar *grammar;
-private:
-	string strValue;
 };
 
 class Addendum {
 public:
 	Addendum();
 	~Addendum();
-	string& to_string();
+	string to_string();
 	bool getFirst();
 	set<int> firstSet;
 	vector<Factor*> factors;
-private:
-	string strValue;
 };
 
 class MultiAddendum {
 public:
 	MultiAddendum();
 	~MultiAddendum();
-	string& to_string();
+	string to_string();
 	bool getFirst();
 	set<int> firstSet;
 	vector<Addendum*> addendums;
-private:
-	string strValue;
 };
 
 class Rule {
@@ -91,11 +84,9 @@ public:
 	YYSTYPE *lpart;
 	MultiAddendum *rpart;
 	YYSTYPE *semRule;
-	string& to_string();
+	string to_string();
 	bool getFirst();
 	set<int> firstSet;
-private:
-	string strValue;
 };
 
 

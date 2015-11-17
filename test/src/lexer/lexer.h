@@ -77,6 +77,7 @@ struct YYSTYPE
 	int tag;
 	int mark;
 	union TYPES *attr;
+	string *attr_type;//тип языка С используемой в объединении
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1

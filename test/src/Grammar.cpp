@@ -132,6 +132,7 @@ map<string, int>* Grammar::boundNonTerms(map<string, int>* strToInt) {
 		string *nonTermName = rules->at(i)->lpart->attr->__string__;
 		(*strToInt)[*nonTermName] = i;
 	}
+
 	return strToInt;
 }
 
@@ -152,19 +153,18 @@ void Grammar::getFirst() {
 
 DeclElem::DeclElem(YYSTYPE* sym, YYSTYPE* type) {
 	this->sym = sym;
-	if (type != NULL ) {
-		this->attr = *(type->attr->__string__);
-	}
+	this->attrTypeToken = type;
 }
 
 DeclElem::~DeclElem() {
 
 }
 
-string& DeclElem::to_string() {
-	stringValue = "";
-	stringValue += "<"+attr+">"+string(Domains[sym->tag]);
-	return stringValue;
+string DeclElem::to_string() {
+	stringstream ss;
+	ss << "<" << *(attrTypeToken->attr->__string__)
+			<< ">" << string(Domains[sym->tag]);
+	return ss.str();
 }
 
 DeclElemFactory::DeclElemFactory(vector<Node*> *array, int index, int elemTag) {
@@ -250,6 +250,8 @@ Rule* RuleFactory::create() {
 	if (ruleNode->children[i]->token->tag!=SP_DOT)
 		throw runtime_error("GenerationError! Expected SP_DOT!\n");
 	cout << "rule created" << "\n";
+
+
 	return new Rule(lpart,rpart,semR);
 }
 
@@ -345,18 +347,19 @@ Factor::~Factor() {
 		delete m_addendum;
 }
 
-string& Factor::to_string() {
+string Factor::to_string() {
+	stringstream ss;
 	if (mode==0)
-		strValue = "";
+		ss << "";
 	if (mode==1)
-		strValue = string(Domains[ident->tag]);
+		ss << Domains[ident->tag];
 	if (mode==2)
-		strValue = "("+m_addendum->to_string()+")";
+		ss << "(" << m_addendum->to_string() << ")";
 	if (mode==3)
-		strValue = "["+m_addendum->to_string()+"]";
+		ss << "[" << m_addendum->to_string() << "]";
 	if (mode==4)
-		strValue = "{"+m_addendum->to_string()+"}";
-	return strValue;
+		ss << "{" << m_addendum->to_string() << "}";
+	return ss.str();
 }
 
 bool Factor::getFirst() {
@@ -399,11 +402,11 @@ Addendum::~Addendum() {
 	for (int i=0; i<(int)factors.size(); i++)
 		delete factors[i];
 }
-string& Addendum::to_string() {
-	strValue = "";
+string Addendum::to_string() {
+	stringstream ss;
 	for (int i=0; i<(int)factors.size(); i++)
-		strValue += " "+factors[i]->to_string();
-	return strValue;
+		ss << " " << factors[i]->to_string();
+	return ss.str();
 }
 
 bool Addendum::getFirst() {
@@ -442,11 +445,11 @@ MultiAddendum::~MultiAddendum( ) {
 		delete addendums[i];
 }
 
-string& MultiAddendum::to_string() {
-	strValue = "";
+string MultiAddendum::to_string() {
+	stringstream ss;
 	for (int i=0; i<(int)addendums.size(); i++)
-		strValue += (i==0?"":"|") + addendums[i]->to_string();
-	return strValue;
+		ss << (i==0?"":"|") << addendums[i]->to_string();
+	return ss.str();
 }
 
 bool MultiAddendum::getFirst() {
@@ -473,13 +476,11 @@ Rule::~Rule() {
 		delete rpart;
 }
 
-string& Rule::to_string() {
-	strValue = "";
-	strValue += string(Domains[lpart->tag]);
-	strValue += " =";
-	strValue += rpart->to_string();
-	strValue += ".\n";
-	return strValue;
+string Rule::to_string() {
+	stringstream ss;
+	ss << Domains[lpart->tag] << " =" << rpart->to_string()
+			<< ".\n";
+	return ss.str();
 }
 
 bool Rule::getFirst() {

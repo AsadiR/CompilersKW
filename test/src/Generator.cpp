@@ -80,6 +80,7 @@ void Generator::generateCppParser(string parserClassName) {
 	//генерим конструктор и деструктор
 	//генерим функцию parse
 	//генерим для каждого правила приватную функцию (writeRule)
+	this->parserClassName = parserClassName;
 	fileH = new ofstream((parserClassName + string(".h")).c_str());
 	fileCpp = new ofstream((parserClassName + string(".cpp")).c_str());
 	string ucName=parserClassName;
@@ -117,6 +118,12 @@ void Generator::generateCppParser(string parserClassName) {
 			parserClassName << "();" << "\n";
 	(*fileH) << "};" << "\n";
 	(*fileH) << "#endif" << "\n";
+	(*fileH).flush();
+
+	(*fileCpp) << "#include " << "\"" << parserClassName
+			<< ".h\"" << "\n";
+	for (it=grammar->rules->begin(); it!=grammar->rules->end(); ++it)
+		writeRule(*it);
 
 	fileH->close();
 	fileCpp->close();
@@ -124,30 +131,53 @@ void Generator::generateCppParser(string parserClassName) {
 	delete fileCpp;
 }
 
+string Generator::getRetType(Rule *r) {
+	string *lpart = r->lpart->attr->__string__;
+	map<string,DeclElem*> *tdm = grammar->nonTermDecl;
+	map<string,DeclElem*>::iterator de = tdm->find(*lpart);
+	if (de == tdm->end())
+		return string("void");
+	else
+		return *(de->second->attrTypeToken->attr_type);
+}
+
 void Generator::writeSignature(string shift, Rule *r) {
 	string *lpart = r->lpart->attr->__string__;
-	map<string,DeclElem*> *tdm = grammar->termDecl;
-	map<string,DeclElem*>::iterator de = tdm->find(*lpart);
-	string retType;
-	if (de == tdm->end())
-		retType = string("void");
-	else
-		retType = typeid(de->second->attr).name();
+	string retType = getRetType(r);
 	(*fileH) << shift << retType << " parse_" << *lpart
 			<< "(Node *parent);" << "\n";
 }
 
-void Generator::writeRule(int shift) {
+void Generator::writeRule(Rule *r) {
 	//генерим номер
 	//генерим правило для раскрытия мулти аддендума etc
+	string *lpart = r->lpart->attr->__string__;
+	string retType = getRetType(r);
+	(*fileCpp) << retType << " " << parserClassName << "::parse_" << *lpart
+			<< "(Node *parent) " << "{\n";
+	writeMultiAddendum("\t", r->rpart);
+	(*fileCpp) << "}\n";
 }
-void Generator::writeMultiAddendum(int shift) {
+void Generator::writeMultiAddendum(string shift, MultiAddendum *ma) {
+	string nShift(shift + "\t");
+	string nnShift(nShift + "\t");
+	(*fileCpp) << shift << "switch(sym->tag) {\n;";
+	vector<Addendum*>::iterator it;
+	set<int>::iterator a_it;
+	for (it=ma->addendums.begin(); it!=ma->addendums.end(); ++it) {
+		for (a_it=(*it)->firstSet.begin(); a_it!=(*it)->firstSet.end(); ++a_it) {
+			(*fileCpp) << nShift << "case " << Domains[*a_it] << ":\n";
+			writeAddendum(nnShift,(*it));
+		}
+	}
+
+
 
 }
-void Generator::writeAddendum(int shift) {
+void Generator::writeAddendum(string shift, Addendum *a) {
 
 }
-void Generator::writeFactor(int shift) {
+void Generator::writeFactor(string shift, Factor *f) {
 
 }
 

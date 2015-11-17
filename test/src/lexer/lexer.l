@@ -16,6 +16,7 @@
 		if (! extra->continued) {						   \
 			yylval->attr = NULL;			   			   \
 			yylval->mark = 0;							   \
+			yylval->attr_type = NULL;					   \
 			yylloc->first_line = extra->cur_line;          \
 			yylloc->first_column = extra->cur_column;      \
 		}                                                  \
@@ -205,11 +206,26 @@ void createStrAttr(YYSTYPE *val, char* text) {
 						*(yylval->attr->__string__) += string(yytext);
 					}
 
-__int__|__char__|__string__		{
-										yylval->tag = SP_TYPE;
-										createStrAttr(yylval, yytext);
-										return SP_TYPE;
-								}
+__int__				{
+						yylval->tag = SP_TYPE;
+						createStrAttr(yylval, yytext);
+						yylval->attr_type = new string("int");
+						return SP_TYPE;
+					}
+				
+__char__			{
+						yylval->tag = SP_TYPE;
+						createStrAttr(yylval, yytext);
+						yylval->attr_type = new string("char");
+						return SP_TYPE;
+					}
+				
+__string__			{
+						yylval->tag = SP_TYPE;
+						createStrAttr(yylval, yytext);
+						yylval->attr_type = new string("string");
+						return SP_TYPE;
+					}
 
 
 [a-z][a-z_]*		{

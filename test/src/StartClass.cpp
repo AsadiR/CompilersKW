@@ -14,7 +14,7 @@ using namespace std;
 
 
 int main ()	{
-	Generator *generator = new Generator("firstGrammar.txt", "logs.txt");
+	Generator *generator = new Generator("inputGrammar.txt", "logs.txt");
 	generator->generateCppParser("GeneratedParser");
 	cout << "\nEND\n";
 	return 0;

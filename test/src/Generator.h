@@ -10,7 +10,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
-#include "lexer/lexer.h"
+#include "lexer.h"
 #include "Grammar.h"
 #include "Parser.h"
 #include <cctype>
@@ -28,14 +28,15 @@ public:
 	void generateCppParser(string parserClassName);
 private:
 	void writeSignature(string shift, Rule *r);
-	void writeRule(int shift);
-	void writeMultiAddendum(int shift);
-	void writeAddendum(int shift);
-	void writeFactor(int shift);
+	void writeRule(Rule *r);
+	void writeMultiAddendum(string shift, MultiAddendum *ma);
+	void writeAddendum(string shift, Addendum *a);
+	void writeFactor(string shift, Factor *f);
 	void lexicalAnalysis();
+	string getRetType(Rule *r);
 	ofstream *fileH;
 	ofstream *fileCpp;
-
+	string parserClassName;
 	vector<YYSTYPE*>  tokens;
 	vector<YYLTYPE*> coords;
 	char* inputGrammar;
