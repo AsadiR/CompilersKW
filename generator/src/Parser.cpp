@@ -17,7 +17,7 @@ Parser::Parser(vector<YYSTYPE*> t) {
 	sym = tokens[0];
 	root = new Node(NULL);
 	cout << "Parser Created\n";
-	cout << "firstSym:" << Domains[sym->tag] << "\n";
+	//cout << "firstSym:" << Domains[sym->tag] << "\n";
 }
 
 Node* Parser::parse() {

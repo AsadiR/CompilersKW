@@ -104,6 +104,7 @@ void createStrAttr(YYSTYPE *val, char* text) {
 
 '\]'	   			  	  {
 							yylval->tag = TERM;
+							yylval->mark = SP_R_SQ_BRACKET;
 							createStrAttr(yylval, yytext);
 							return TERM;
 						  }

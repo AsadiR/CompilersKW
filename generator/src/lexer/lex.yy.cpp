@@ -1015,13 +1015,14 @@ YY_RULE_SETUP
 #line 105 "lexer.l"
 {
 							yylval->tag = TERM;
+							yylval->mark = SP_R_SQ_BRACKET;
 							createStrAttr(yylval, yytext);
 							return TERM;
 						  }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 111 "lexer.l"
+#line 112 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = SP_L_BRACE;
@@ -1031,7 +1032,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 118 "lexer.l"
+#line 119 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = SP_R_BRACE;
@@ -1041,7 +1042,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 125 "lexer.l"
+#line 126 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = SP_L_PARENT;
@@ -1051,7 +1052,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 132 "lexer.l"
+#line 133 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = SP_R_PARENT;
@@ -1061,7 +1062,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 139 "lexer.l"
+#line 140 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = SP_DOT;
@@ -1071,7 +1072,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 146 "lexer.l"
+#line 147 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = SP_DIR_SLASH;
@@ -1081,7 +1082,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 153 "lexer.l"
+#line 154 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = SP_EQUAL;
@@ -1091,7 +1092,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 160 "lexer.l"
+#line 161 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = SP_MULTI;
@@ -1101,7 +1102,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 169 "lexer.l"
+#line 170 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = SP_L_TR_BRACKET;
@@ -1111,7 +1112,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 176 "lexer.l"
+#line 177 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = SP_R_TR_BRACKET;
@@ -1121,7 +1122,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 183 "lexer.l"
+#line 184 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = SP_COMMA;
@@ -1131,7 +1132,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 191 "lexer.l"
+#line 192 "lexer.l"
 {
 						BEGIN(SPSEMRULE);
 						yyextra->continued=1;
@@ -1140,7 +1141,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 197 "lexer.l"
+#line 198 "lexer.l"
 {
 						BEGIN(0); 
 						*(yylval->attr->__string__) += string(yytext);
@@ -1151,7 +1152,7 @@ YY_RULE_SETUP
 case 23:
 /* rule 23 can match eol */
 YY_RULE_SETUP
-#line 204 "lexer.l"
+#line 205 "lexer.l"
 {
 						yyextra->continued = 1;
 						*(yylval->attr->__string__) += string(yytext);
@@ -1159,7 +1160,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 209 "lexer.l"
+#line 210 "lexer.l"
 {
 						yylval->tag = SP_TYPE;
 						createStrAttr(yylval, yytext);
@@ -1169,7 +1170,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 216 "lexer.l"
+#line 217 "lexer.l"
 {
 						yylval->tag = SP_TYPE;
 						createStrAttr(yylval, yytext);
@@ -1179,7 +1180,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 223 "lexer.l"
+#line 224 "lexer.l"
 {
 						yylval->tag = SP_TYPE;
 						createStrAttr(yylval, yytext);
@@ -1189,7 +1190,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 231 "lexer.l"
+#line 232 "lexer.l"
 {
 						yylval->tag=SP_NON_TERM;
 						createStrAttr(yylval, yytext);
@@ -1198,87 +1199,87 @@ YY_RULE_SETUP
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 239 "lexer.l"
+#line 240 "lexer.l"
 yylval->tag=SP_DECL_TERM; return SP_DECL_TERM;
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 240 "lexer.l"
+#line 241 "lexer.l"
 yylval->tag=SP_DECL_NONTERM; return SP_DECL_NONTERM;
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 241 "lexer.l"
+#line 242 "lexer.l"
 yylval->tag=SP_L_SQ_BRACKET; return SP_L_SQ_BRACKET;
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 242 "lexer.l"
+#line 243 "lexer.l"
 yylval->tag=SP_R_SQ_BRACKET; return SP_R_SQ_BRACKET;
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 243 "lexer.l"
+#line 244 "lexer.l"
 yylval->tag=SP_L_BRACE; return SP_L_BRACE;
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 244 "lexer.l"
+#line 245 "lexer.l"
 yylval->tag=SP_R_BRACE; return SP_R_BRACE;
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 245 "lexer.l"
+#line 246 "lexer.l"
 yylval->tag=SP_L_PARENT; return SP_L_PARENT;
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 246 "lexer.l"
+#line 247 "lexer.l"
 yylval->tag=SP_R_PARENT; return SP_R_PARENT;
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 247 "lexer.l"
+#line 248 "lexer.l"
 yylval->tag=SP_DOT; return SP_DOT;
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 248 "lexer.l"
+#line 249 "lexer.l"
 yylval->tag=SP_DIR_SLASH; return SP_DIR_SLASH;
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 249 "lexer.l"
+#line 250 "lexer.l"
 yylval->tag=SP_EQUAL; return SP_EQUAL;
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 250 "lexer.l"
+#line 251 "lexer.l"
 yylval->tag=SP_MULTI; return SP_MULTI;
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 251 "lexer.l"
+#line 252 "lexer.l"
 yylval->tag=SP_COMMA; return SP_COMMA;
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 252 "lexer.l"
+#line 253 "lexer.l"
 yylval->tag=SP_L_TR_BRACKET; return SP_L_TR_BRACKET;
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 253 "lexer.l"
+#line 254 "lexer.l"
 yylval->tag=SP_R_TR_BRACKET; return SP_R_TR_BRACKET;
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(SPSEMRULE):
-#line 254 "lexer.l"
+#line 255 "lexer.l"
 yylval->tag=0; return 0;
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 256 "lexer.l"
+#line 257 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = NUMBER;
@@ -1288,7 +1289,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 263 "lexer.l"
+#line 264 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = PRINT;
@@ -1298,7 +1299,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 270 "lexer.l"
+#line 271 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = SEMICOLON;
@@ -1308,7 +1309,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 277 "lexer.l"
+#line 278 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = SP_COMMA;
@@ -1318,7 +1319,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 284 "lexer.l"
+#line 285 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = PLUS;
@@ -1328,7 +1329,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 291 "lexer.l"
+#line 292 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = MINUS;
@@ -1338,7 +1339,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 298 "lexer.l"
+#line 299 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = SP_MULTI;
@@ -1348,7 +1349,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 305 "lexer.l"
+#line 306 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = DIVIDE;
@@ -1358,7 +1359,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 312 "lexer.l"
+#line 313 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = SP_L_PARENT;
@@ -1368,7 +1369,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 319 "lexer.l"
+#line 320 "lexer.l"
 {
 							yylval->tag = TERM;
 							yylval->mark = SP_R_PARENT;
@@ -1378,7 +1379,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 329 "lexer.l"
+#line 330 "lexer.l"
 {
 							yylval->tag = NUMBER;
 							yylval->attr = new TYPES;
@@ -1388,32 +1389,32 @@ YY_RULE_SETUP
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 336 "lexer.l"
+#line 337 "lexer.l"
 return PLUS;
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 337 "lexer.l"
+#line 338 "lexer.l"
 return MINUS;
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 338 "lexer.l"
+#line 339 "lexer.l"
 return DIVIDE;
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 339 "lexer.l"
+#line 340 "lexer.l"
 return SEMICOLON;
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 340 "lexer.l"
+#line 341 "lexer.l"
 return PRINT;					
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 342 "lexer.l"
+#line 343 "lexer.l"
 {
 						yylval->tag = ERROR;
 						yylval->attr = new TYPES;
@@ -1424,10 +1425,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 351 "lexer.l"
+#line 352 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 1431 "lex.yy.cpp"
+#line 1432 "lex.yy.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2566,7 +2567,7 @@ void yyfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 351 "lexer.l"
+#line 352 "lexer.l"
 
 
 const char* Domains[] = {
