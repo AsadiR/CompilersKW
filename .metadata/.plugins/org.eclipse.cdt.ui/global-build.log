@@ -1,368 +1,65 @@
-21:25:52 **** Clean-only build of configuration Debug for project test ****
+20:22:27 **** Clean-only build of configuration Debug for project generator ****
 make clean 
-rm -rf  ./src/lexer/lex.yy.o  ./src/Generator.o ./src/Node.o ./src/Parser.o  ./src/lexer/lex.yy.d  ./src/Generator.d ./src/Node.d ./src/Parser.d  test
+rm -rf  ./src/lexer/lex.yy.o  ./src/Generator.o ./src/Grammar.o ./src/Node.o ./src/Parser.o ./src/StartClass.o  ./src/lexer/lex.yy.d  ./src/Generator.d ./src/Grammar.d ./src/Node.d ./src/Parser.d ./src/StartClass.d  generator
  
-21:25:53 **** Incremental Build of configuration Debug for project NeedlmanWucnsh_N ****
-make all 
-make: Цель `all' не требует выполнения команд.
-21:25:54 **** Build of configuration Debug for project test ****
+20:22:32 **** Build of configuration Debug for project generator ****
 make all 
 Building file: ../src/lexer/lex.yy.cpp
 Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/lexer/lex.yy.d" -MT"src/lexer/lex.yy.o" -o "src/lexer/lex.yy.o" "../src/lexer/lex.yy.cpp"
-lex.yy.c:1591:17: warning: ‘void yyunput(int, char*, yyscan_t)’ defined but not used [-Wunused-function]
+g++ -I"/home/ugin/CompilerKursworkWorkspace/generator/src/lexer" -I"/home/ugin/CompilerKursworkWorkspace/generator/src" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/lexer/lex.yy.d" -MT"src/lexer/lex.yy.o" -o "src/lexer/lex.yy.o" "../src/lexer/lex.yy.cpp"
 Finished building: ../src/lexer/lex.yy.cpp
  
 Building file: ../src/Generator.cpp
 Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Generator.d" -MT"src/Generator.o" -o "src/Generator.o" "../src/Generator.cpp"
+g++ -I"/home/ugin/CompilerKursworkWorkspace/generator/src/lexer" -I"/home/ugin/CompilerKursworkWorkspace/generator/src" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Generator.d" -MT"src/Generator.o" -o "src/Generator.o" "../src/Generator.cpp"
 Finished building: ../src/Generator.cpp
+ 
+Building file: ../src/Grammar.cpp
+Invoking: GCC C++ Compiler
+g++ -I"/home/ugin/CompilerKursworkWorkspace/generator/src/lexer" -I"/home/ugin/CompilerKursworkWorkspace/generator/src" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Grammar.d" -MT"src/Grammar.o" -o "src/Grammar.o" "../src/Grammar.cpp"
+Finished building: ../src/Grammar.cpp
  
 Building file: ../src/Node.cpp
 Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Node.d" -MT"src/Node.o" -o "src/Node.o" "../src/Node.cpp"
-../src/Node.cpp: In destructor ‘virtual Node::~Node()’:
-../src/Node.cpp:25:17: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-  for (int i=0; i<children.size(); i++) {
-                 ^
+g++ -I"/home/ugin/CompilerKursworkWorkspace/generator/src/lexer" -I"/home/ugin/CompilerKursworkWorkspace/generator/src" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Node.d" -MT"src/Node.o" -o "src/Node.o" "../src/Node.cpp"
 Finished building: ../src/Node.cpp
  
 Building file: ../src/Parser.cpp
 Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Parser.d" -MT"src/Parser.o" -o "src/Parser.o" "../src/Parser.cpp"
+g++ -I"/home/ugin/CompilerKursworkWorkspace/generator/src/lexer" -I"/home/ugin/CompilerKursworkWorkspace/generator/src" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Parser.d" -MT"src/Parser.o" -o "src/Parser.o" "../src/Parser.cpp"
 Finished building: ../src/Parser.cpp
  
-Building target: test
-Invoking: GCC C++ Linker
-g++  -o "test"  ./src/lexer/lex.yy.o  ./src/Generator.o ./src/Node.o ./src/Parser.o   
-Finished building target: test
- 
-21:27:08 **** Incremental Build of configuration Debug for project test ****
-make all 
-make: Цель `all' не требует выполнения команд.
-21:36:25 **** Incremental Build of configuration Debug for project NeedlmanWucnsh_N ****
-make all 
-make: Цель `all' не требует выполнения команд.
-21:36:25 **** Incremental Build of configuration Debug for project test ****
-make all 
-make: Цель `all' не требует выполнения команд.
-21:37:04 **** Incremental Build of configuration Debug for project test ****
-make all 
-make: Цель `all' не требует выполнения команд.
-21:37:30 **** Incremental Build of configuration Debug for project test ****
-make all 
-make: Цель `all' не требует выполнения команд.
-11:24:34 **** Incremental Build of configuration Debug for project NeedlmanWucnsh_N ****
-make all 
-make: Цель `all' не требует выполнения команд.
-11:25:42 **** Incremental Build of configuration Debug for project NeedlmanWucnsh_N ****
-make all 
-make: Цель `all' не требует выполнения команд.
-11:27:11 **** Incremental Build of configuration Debug for project NeedlmanWucnsh_N ****
-make all 
-Building file: ../src/Cube.cpp
+Building file: ../src/StartClass.cpp
 Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Cube.d" -MT"src/Cube.o" -o "src/Cube.o" "../src/Cube.cpp"
-Finished building: ../src/Cube.cpp
+g++ -I"/home/ugin/CompilerKursworkWorkspace/generator/src/lexer" -I"/home/ugin/CompilerKursworkWorkspace/generator/src" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/StartClass.d" -MT"src/StartClass.o" -o "src/StartClass.o" "../src/StartClass.cpp"
+Finished building: ../src/StartClass.cpp
  
-Building target: NeedlmanWucnsh_N
+Building target: generator
 Invoking: GCC C++ Linker
-g++  -o "NeedlmanWucnsh_N"  ./src/BlossumMatrix.o ./src/Cube.o ./src/NeedlmanWucnsh_N.o   
-Finished building target: NeedlmanWucnsh_N
+g++  -o "generator"  ./src/lexer/lex.yy.o  ./src/Generator.o ./src/Grammar.o ./src/Node.o ./src/Parser.o ./src/StartClass.o   
+Finished building target: generator
  
-11:27:44 **** Incremental Build of configuration Debug for project NeedlmanWucnsh_N ****
-make all 
-Building file: ../src/Cube.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Cube.d" -MT"src/Cube.o" -o "src/Cube.o" "../src/Cube.cpp"
-Finished building: ../src/Cube.cpp
- 
-Building target: NeedlmanWucnsh_N
-Invoking: GCC C++ Linker
-g++  -o "NeedlmanWucnsh_N"  ./src/BlossumMatrix.o ./src/Cube.o ./src/NeedlmanWucnsh_N.o   
-Finished building target: NeedlmanWucnsh_N
- 
-11:27:54 **** Incremental Build of configuration Debug for project NeedlmanWucnsh_N ****
-make all 
-Building file: ../src/Cube.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Cube.d" -MT"src/Cube.o" -o "src/Cube.o" "../src/Cube.cpp"
-Finished building: ../src/Cube.cpp
- 
-Building target: NeedlmanWucnsh_N
-Invoking: GCC C++ Linker
-g++  -o "NeedlmanWucnsh_N"  ./src/BlossumMatrix.o ./src/Cube.o ./src/NeedlmanWucnsh_N.o   
-Finished building target: NeedlmanWucnsh_N
- 
-11:28:38 **** Incremental Build of configuration Debug for project NeedlmanWucnsh_N ****
+20:22:38 **** Incremental Build of configuration Debug for project generator ****
 make all 
 make: Цель `all' не требует выполнения команд.
-11:29:06 **** Incremental Build of configuration Debug for project NeedlmanWucnsh_N ****
+20:23:04 **** Incremental Build of configuration Debug for project generator ****
 make all 
 make: Цель `all' не требует выполнения команд.
-11:29:31 **** Incremental Build of configuration Debug for project NeedlmanWucnsh_N ****
+20:23:07 **** Incremental Build of configuration Debug for project generator ****
 make all 
 make: Цель `all' не требует выполнения команд.
-11:29:38 **** Incremental Build of configuration Debug for project NeedlmanWucnsh_N ****
-make all 
-make: Цель `all' не требует выполнения команд.
-11:29:44 **** Incremental Build of configuration Debug for project NeedlmanWucnsh_N ****
-make all 
-make: Цель `all' не требует выполнения команд.
-11:35:05 **** Incremental Build of configuration Debug for project NeedlmanWucnsh_N ****
-make all 
-Building file: ../src/Cube.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Cube.d" -MT"src/Cube.o" -o "src/Cube.o" "../src/Cube.cpp"
-Finished building: ../src/Cube.cpp
- 
-Building target: NeedlmanWucnsh_N
-Invoking: GCC C++ Linker
-g++  -o "NeedlmanWucnsh_N"  ./src/BlossumMatrix.o ./src/Cube.o ./src/NeedlmanWucnsh_N.o   
-Finished building target: NeedlmanWucnsh_N
- 
-11:35:53 **** Incremental Build of configuration Debug for project NeedlmanWucnsh_N ****
-make all 
-Building file: ../src/Cube.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Cube.d" -MT"src/Cube.o" -o "src/Cube.o" "../src/Cube.cpp"
-Finished building: ../src/Cube.cpp
- 
-Building target: NeedlmanWucnsh_N
-Invoking: GCC C++ Linker
-g++  -o "NeedlmanWucnsh_N"  ./src/BlossumMatrix.o ./src/Cube.o ./src/NeedlmanWucnsh_N.o   
-Finished building target: NeedlmanWucnsh_N
- 
-11:37:30 **** Incremental Build of configuration Debug for project NeedlmanWucnsh_N ****
-make all 
-Building file: ../src/Cube.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Cube.d" -MT"src/Cube.o" -o "src/Cube.o" "../src/Cube.cpp"
-Finished building: ../src/Cube.cpp
- 
-Building target: NeedlmanWucnsh_N
-Invoking: GCC C++ Linker
-g++  -o "NeedlmanWucnsh_N"  ./src/BlossumMatrix.o ./src/Cube.o ./src/NeedlmanWucnsh_N.o   
-Finished building target: NeedlmanWucnsh_N
- 
-11:40:10 **** Incremental Build of configuration Debug for project NeedlmanWucnsh_N ****
-make all 
-make: Цель `all' не требует выполнения команд.
-11:40:25 **** Incremental Build of configuration Debug for project NeedlmanWucnsh_N ****
-make all 
-make: Цель `all' не требует выполнения команд.
-16:14:45 **** Build of configuration Debug for project test ****
+20:25:57 **** Incremental Build of configuration Debug for project generator ****
 make all 
 Building file: ../src/lexer/lex.yy.cpp
 Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/lexer/lex.yy.d" -MT"src/lexer/lex.yy.o" -o "src/lexer/lex.yy.o" "../src/lexer/lex.yy.cpp"
-lex.yy.cpp:1592:17: warning: ‘void yyunput(int, char*, yyscan_t)’ defined but not used [-Wunused-function]
+g++ -I"/home/ugin/CompilerKursworkWorkspace/generator/src/lexer" -I"/home/ugin/CompilerKursworkWorkspace/generator/src" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/lexer/lex.yy.d" -MT"src/lexer/lex.yy.o" -o "src/lexer/lex.yy.o" "../src/lexer/lex.yy.cpp"
 Finished building: ../src/lexer/lex.yy.cpp
  
-Building file: ../src/Generator.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Generator.d" -MT"src/Generator.o" -o "src/Generator.o" "../src/Generator.cpp"
-Finished building: ../src/Generator.cpp
- 
-Building file: ../src/Parser.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Parser.d" -MT"src/Parser.o" -o "src/Parser.o" "../src/Parser.cpp"
-Finished building: ../src/Parser.cpp
- 
-Building target: test
+Building target: generator
 Invoking: GCC C++ Linker
-g++  -o "test"  ./src/lexer/lex.yy.o  ./src/Generator.o ./src/Node.o ./src/Parser.o   
-Finished building target: test
+g++  -o "generator"  ./src/lexer/lex.yy.o  ./src/Generator.o ./src/Grammar.o ./src/Node.o ./src/Parser.o ./src/StartClass.o   
+Finished building target: generator
  
-16:59:16 **** Incremental Build of configuration Debug for project test ****
-make all 
-Building file: ../src/lexer/lex.yy.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/lexer/lex.yy.d" -MT"src/lexer/lex.yy.o" -o "src/lexer/lex.yy.o" "../src/lexer/lex.yy.cpp"
-lex.yy.cpp:1622:17: warning: ‘void yyunput(int, char*, yyscan_t)’ defined but not used [-Wunused-function]
-Finished building: ../src/lexer/lex.yy.cpp
- 
-Building file: ../src/Generator.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Generator.d" -MT"src/Generator.o" -o "src/Generator.o" "../src/Generator.cpp"
-Finished building: ../src/Generator.cpp
- 
-Building file: ../src/Node.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Node.d" -MT"src/Node.o" -o "src/Node.o" "../src/Node.cpp"
-../src/Node.cpp: In destructor ‘virtual Node::~Node()’:
-../src/Node.cpp:25:17: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-  for (int i=0; i<children.size(); i++) {
-                 ^
-Finished building: ../src/Node.cpp
- 
-Building file: ../src/Parser.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Parser.d" -MT"src/Parser.o" -o "src/Parser.o" "../src/Parser.cpp"
-Finished building: ../src/Parser.cpp
- 
-Building target: test
-Invoking: GCC C++ Linker
-g++  -o "test"  ./src/lexer/lex.yy.o  ./src/Generator.o ./src/Node.o ./src/Parser.o   
-Finished building target: test
- 
-16:59:19 **** Incremental Build of configuration Debug for project test ****
-make all 
-make: Цель `all' не требует выполнения команд.
-17:25:08 **** Incremental Build of configuration Debug for project test ****
-make all 
-Building file: ../src/lexer/lex.yy.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/lexer/lex.yy.d" -MT"src/lexer/lex.yy.o" -o "src/lexer/lex.yy.o" "../src/lexer/lex.yy.cpp"
-lex.yy.cpp:1592:17: warning: ‘void yyunput(int, char*, yyscan_t)’ defined but not used [-Wunused-function]
-Finished building: ../src/lexer/lex.yy.cpp
- 
-Building target: test
-Invoking: GCC C++ Linker
-g++  -o "test"  ./src/lexer/lex.yy.o  ./src/Generator.o ./src/Node.o ./src/Parser.o   
-Finished building target: test
- 
-18:45:46 **** Incremental Build of configuration Debug for project test ****
-make all 
-Building file: ../src/lexer/lex.yy.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/lexer/lex.yy.d" -MT"src/lexer/lex.yy.o" -o "src/lexer/lex.yy.o" "../src/lexer/lex.yy.cpp"
-lex.yy.cpp:1582:17: warning: ‘void yyunput(int, char*, yyscan_t)’ defined but not used [-Wunused-function]
-Finished building: ../src/lexer/lex.yy.cpp
- 
-Building target: test
-Invoking: GCC C++ Linker
-g++  -o "test"  ./src/lexer/lex.yy.o  ./src/Generator.o ./src/Node.o ./src/Parser.o   
-Finished building target: test
- 
-18:49:25 **** Incremental Build of configuration Debug for project test ****
-make all 
-Building file: ../src/lexer/lex.yy.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/lexer/lex.yy.d" -MT"src/lexer/lex.yy.o" -o "src/lexer/lex.yy.o" "../src/lexer/lex.yy.cpp"
-lex.yy.cpp:1540:17: warning: ‘void yyunput(int, char*, yyscan_t)’ defined but not used [-Wunused-function]
-Finished building: ../src/lexer/lex.yy.cpp
- 
-Building target: test
-Invoking: GCC C++ Linker
-g++  -o "test"  ./src/lexer/lex.yy.o  ./src/Generator.o ./src/Node.o ./src/Parser.o   
-Finished building target: test
- 
-18:49:28 **** Incremental Build of configuration Debug for project test ****
-make all 
-make: Цель `all' не требует выполнения команд.
-18:53:32 **** Incremental Build of configuration Debug for project test ****
-make all 
-Building file: ../src/lexer/lex.yy.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/lexer/lex.yy.d" -MT"src/lexer/lex.yy.o" -o "src/lexer/lex.yy.o" "../src/lexer/lex.yy.cpp"
-lex.yy.cpp:1540:17: warning: ‘void yyunput(int, char*, yyscan_t)’ defined but not used [-Wunused-function]
-Finished building: ../src/lexer/lex.yy.cpp
- 
-Building file: ../src/Generator.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Generator.d" -MT"src/Generator.o" -o "src/Generator.o" "../src/Generator.cpp"
-Finished building: ../src/Generator.cpp
- 
-Building file: ../src/Node.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Node.d" -MT"src/Node.o" -o "src/Node.o" "../src/Node.cpp"
-../src/Node.cpp: In destructor ‘virtual Node::~Node()’:
-../src/Node.cpp:25:17: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-  for (int i=0; i<children.size(); i++) {
-                 ^
-Finished building: ../src/Node.cpp
- 
-Building file: ../src/Parser.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Parser.d" -MT"src/Parser.o" -o "src/Parser.o" "../src/Parser.cpp"
-Finished building: ../src/Parser.cpp
- 
-Building target: test
-Invoking: GCC C++ Linker
-g++  -o "test"  ./src/lexer/lex.yy.o  ./src/Generator.o ./src/Node.o ./src/Parser.o   
-Finished building target: test
- 
-18:59:18 **** Incremental Build of configuration Debug for project test ****
-make all 
-Building file: ../src/lexer/lex.yy.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/lexer/lex.yy.d" -MT"src/lexer/lex.yy.o" -o "src/lexer/lex.yy.o" "../src/lexer/lex.yy.cpp"
-lex.yy.cpp:1540:17: warning: ‘void yyunput(int, char*, yyscan_t)’ defined but not used [-Wunused-function]
-Finished building: ../src/lexer/lex.yy.cpp
- 
-Building file: ../src/Generator.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Generator.d" -MT"src/Generator.o" -o "src/Generator.o" "../src/Generator.cpp"
-Finished building: ../src/Generator.cpp
- 
-Building file: ../src/Node.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Node.d" -MT"src/Node.o" -o "src/Node.o" "../src/Node.cpp"
-../src/Node.cpp: In destructor ‘virtual Node::~Node()’:
-../src/Node.cpp:25:17: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-  for (int i=0; i<children.size(); i++) {
-                 ^
-Finished building: ../src/Node.cpp
- 
-Building file: ../src/Parser.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Parser.d" -MT"src/Parser.o" -o "src/Parser.o" "../src/Parser.cpp"
-Finished building: ../src/Parser.cpp
- 
-Building target: test
-Invoking: GCC C++ Linker
-g++  -o "test"  ./src/lexer/lex.yy.o  ./src/Generator.o ./src/Node.o ./src/Parser.o   
-Finished building target: test
- 
-18:59:32 **** Incremental Build of configuration Debug for project test ****
-make all 
-Building file: ../src/lexer/lex.yy.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/lexer/lex.yy.d" -MT"src/lexer/lex.yy.o" -o "src/lexer/lex.yy.o" "../src/lexer/lex.yy.cpp"
-lex.yy.cpp:1540:17: warning: ‘void yyunput(int, char*, yyscan_t)’ defined but not used [-Wunused-function]
-Finished building: ../src/lexer/lex.yy.cpp
- 
-Building file: ../src/Generator.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Generator.d" -MT"src/Generator.o" -o "src/Generator.o" "../src/Generator.cpp"
-Finished building: ../src/Generator.cpp
- 
-Building target: test
-Invoking: GCC C++ Linker
-g++  -o "test"  ./src/lexer/lex.yy.o  ./src/Generator.o ./src/Node.o ./src/Parser.o   
-Finished building target: test
- 
-19:07:20 **** Incremental Build of configuration Debug for project test ****
-make all 
-Building file: ../src/lexer/lex.yy.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/lexer/lex.yy.d" -MT"src/lexer/lex.yy.o" -o "src/lexer/lex.yy.o" "../src/lexer/lex.yy.cpp"
-lex.yy.cpp:1562:17: warning: ‘void yyunput(int, char*, yyscan_t)’ defined but not used [-Wunused-function]
-Finished building: ../src/lexer/lex.yy.cpp
- 
-Building file: ../src/Parser.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Parser.d" -MT"src/Parser.o" -o "src/Parser.o" "../src/Parser.cpp"
-Finished building: ../src/Parser.cpp
- 
-Building target: test
-Invoking: GCC C++ Linker
-g++  -o "test"  ./src/lexer/lex.yy.o  ./src/Generator.o ./src/Node.o ./src/Parser.o   
-Finished building target: test
- 
-19:08:32 **** Incremental Build of configuration Debug for project test ****
-make all 
-Building file: ../src/Generator.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Generator.d" -MT"src/Generator.o" -o "src/Generator.o" "../src/Generator.cpp"
-Finished building: ../src/Generator.cpp
- 
-Building target: test
-Invoking: GCC C++ Linker
-g++  -o "test"  ./src/lexer/lex.yy.o  ./src/Generator.o ./src/Node.o ./src/Parser.o   
-Finished building target: test
- 
-19:08:35 **** Incremental Build of configuration Debug for project test ****
+20:26:00 **** Incremental Build of configuration Debug for project generator ****
 make all 
 make: Цель `all' не требует выполнения команд.

@@ -1,2 +1,0 @@
-flex lexer.l 
-echo "!!lexer has been built!!"

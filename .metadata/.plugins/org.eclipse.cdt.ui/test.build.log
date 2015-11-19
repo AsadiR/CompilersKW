@@ -1,6 +1,12 @@
-19:08:35 **** Incremental Build of configuration Debug for project test ****
+15:01:05 **** Incremental Build of configuration Debug for project test ****
 make all 
-make: Цель `all' не требует выполнения команд.
+Building target: libtest
+Invoking: GCC C++ Linker
+g++ -shared -o "libtest"  ./src/lexer/lex.yy.o  ./src/Generator.o ./src/Grammar.o ./src/Node.o ./src/Parser.o ./src/StartClass.o   
+/usr/bin/ld.bfd.real: ./src/lexer/lex.yy.o: перемещение R_X86_64_32 для «.rodata.str1.1» не может использоваться при создании общего объекта; перекомпилируйте с -fPIC
+./src/lexer/lex.yy.o: error adding symbols: Некорректное значение
+collect2: error: ld returned 1 exit status
+make: *** [libtest] Ошибка 1
 
-19:08:35 Build Finished (took 70ms)
+15:01:05 Build Finished (took 65ms)
 

@@ -1,2 +1,0 @@
-flex -o lexer.yy.cpp lexer.l 
-echo "!!lexer has been built!!"

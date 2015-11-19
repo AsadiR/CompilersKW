@@ -1,0 +1,377 @@
+Generator constructor has been started.
+The following grammar was received from inputGrammar.txt:
+__________________________________
+%{ %}
+%term <__int__> @NUMBER.
+%nonterm <__int__> expr, <__int__> addendum, <__int__> factor.
+program = statement @SEMICOLON program | .
+statement = @PRINT out outlist.
+outlist= @COMMA out outlist  | .
+out =  expr %{ printf("%ld\n", $1); %}.
+expr = addendum %{ $$=$1 %} { @PLUS addendum %{ $$+=$1 %} 
+			| @MINUS addendum %{ $$-=$1 %} }.
+addendum = factor %{ $$=$1 %} { @MULTI factor %{ $$*=$1 %} 
+			| @DIVIDE factor %{ $$/=$1 %} }.
+factor = @LPAREN expr @RPAREN %{ $$=$1 %}
+ 			| @NUMBER %{ $$=$1 %}
+			| @MINUS @LPAREN expr @RPAREN %{ $$=-$1 %}.
+%{ %}
+
+
+__________________________________
+Lexical analysis has been started. Following tokens were received:
+		SP_SEM_RULE( 1,1 - 1,6 )
+		SP_DECL_TERM( 2,1 - 2,6 )
+		SP_L_TR_BRACKET( 2,7 - 2,8 )
+		SP_TYPE( 2,8 - 2,15 )
+		SP_R_TR_BRACKET( 2,15 - 2,16 )
+		TERM( 2,17 - 2,24 )
+		SP_DOT( 2,24 - 2,25 )
+		SP_DECL_NONTERM( 3,1 - 3,9 )
+		SP_L_TR_BRACKET( 3,10 - 3,11 )
+		SP_TYPE( 3,11 - 3,18 )
+		SP_R_TR_BRACKET( 3,18 - 3,19 )
+		SP_NON_TERM( 3,20 - 3,24 )
+		SP_COMMA( 3,24 - 3,25 )
+		SP_L_TR_BRACKET( 3,26 - 3,27 )
+		SP_TYPE( 3,27 - 3,34 )
+		SP_R_TR_BRACKET( 3,34 - 3,35 )
+		SP_NON_TERM( 3,36 - 3,44 )
+		SP_COMMA( 3,44 - 3,45 )
+		SP_L_TR_BRACKET( 3,46 - 3,47 )
+		SP_TYPE( 3,47 - 3,54 )
+		SP_R_TR_BRACKET( 3,54 - 3,55 )
+		SP_NON_TERM( 3,56 - 3,62 )
+		SP_DOT( 3,62 - 3,63 )
+		SP_NON_TERM( 4,1 - 4,8 )
+		SP_EQUAL( 4,9 - 4,10 )
+		SP_NON_TERM( 4,11 - 4,20 )
+		TERM( 4,21 - 4,31 )
+		SP_NON_TERM( 4,32 - 4,39 )
+		SP_DIR_SLASH( 4,40 - 4,41 )
+		SP_DOT( 4,42 - 4,43 )
+		SP_NON_TERM( 5,1 - 5,10 )
+		SP_EQUAL( 5,11 - 5,12 )
+		TERM( 5,13 - 5,19 )
+		SP_NON_TERM( 5,20 - 5,23 )
+		SP_NON_TERM( 5,24 - 5,31 )
+		SP_DOT( 5,31 - 5,32 )
+		SP_NON_TERM( 6,1 - 6,8 )
+		SP_EQUAL( 6,8 - 6,9 )
+		TERM( 6,10 - 6,16 )
+		SP_NON_TERM( 6,17 - 6,20 )
+		SP_NON_TERM( 6,21 - 6,28 )
+		SP_DIR_SLASH( 6,30 - 6,31 )
+		SP_DOT( 6,32 - 6,33 )
+		SP_NON_TERM( 7,1 - 7,4 )
+		SP_EQUAL( 7,5 - 7,6 )
+		SP_NON_TERM( 7,8 - 7,12 )
+		SP_SEM_RULE( 7,13 - 7,39 )
+		SP_DOT( 7,39 - 7,40 )
+		SP_NON_TERM( 8,1 - 8,5 )
+		SP_EQUAL( 8,6 - 8,7 )
+		SP_NON_TERM( 8,8 - 8,16 )
+		SP_SEM_RULE( 8,17 - 8,28 )
+		SP_L_BRACE( 8,29 - 8,30 )
+		TERM( 8,31 - 8,36 )
+		SP_NON_TERM( 8,37 - 8,45 )
+		SP_SEM_RULE( 8,46 - 8,58 )
+		SP_DIR_SLASH( 9,4 - 9,5 )
+		TERM( 9,6 - 9,12 )
+		SP_NON_TERM( 9,13 - 9,21 )
+		SP_SEM_RULE( 9,22 - 9,34 )
+		SP_R_BRACE( 9,35 - 9,36 )
+		SP_DOT( 9,36 - 9,37 )
+		SP_NON_TERM( 10,1 - 10,9 )
+		SP_EQUAL( 10,10 - 10,11 )
+		SP_NON_TERM( 10,12 - 10,18 )
+		SP_SEM_RULE( 10,19 - 10,30 )
+		SP_L_BRACE( 10,31 - 10,32 )
+		TERM( 10,33 - 10,39 )
+		SP_NON_TERM( 10,40 - 10,46 )
+		SP_SEM_RULE( 10,47 - 10,59 )
+		SP_DIR_SLASH( 11,4 - 11,5 )
+		TERM( 11,6 - 11,13 )
+		SP_NON_TERM( 11,14 - 11,20 )
+		SP_SEM_RULE( 11,21 - 11,33 )
+		SP_R_BRACE( 11,34 - 11,35 )
+		SP_DOT( 11,35 - 11,36 )
+		SP_NON_TERM( 12,1 - 12,7 )
+		SP_EQUAL( 12,8 - 12,9 )
+		TERM( 12,10 - 12,17 )
+		SP_NON_TERM( 12,18 - 12,22 )
+		TERM( 12,23 - 12,30 )
+		SP_SEM_RULE( 12,31 - 12,42 )
+		SP_DIR_SLASH( 13,5 - 13,6 )
+		TERM( 13,7 - 13,14 )
+		SP_SEM_RULE( 13,15 - 13,26 )
+		SP_DIR_SLASH( 14,4 - 14,5 )
+		TERM( 14,6 - 14,12 )
+		TERM( 14,13 - 14,20 )
+		SP_NON_TERM( 14,21 - 14,25 )
+		TERM( 14,26 - 14,33 )
+		SP_SEM_RULE( 14,34 - 14,46 )
+		SP_DOT( 14,46 - 14,47 )
+		SP_SEM_RULE( 15,1 - 15,6 )
+		<<EOF>>( 15,6 - 17,1 )
+Lexical analysis has been finished.
+Parsing has been started.
+Parsing has been finished. Following parsing tree was received:
+NONTERM
+├╴SP_SEM_RULE
+├╴NONTERM
+│ ├╴NONTERM
+│ │ ├╴SP_DECL_TERM
+│ │ ├╴NONTERM
+│ │ │ ├╴SP_L_TR_BRACKET
+│ │ │ ├╴SP_TYPE
+│ │ │ └╴SP_R_TR_BRACKET
+│ │ │ 
+│ │ ├╴TERM
+│ │ └╴SP_DOT
+│ │ 
+│ └╴NONTERM
+│   ├╴SP_DECL_NONTERM
+│   ├╴NONTERM
+│   │ ├╴SP_L_TR_BRACKET
+│   │ ├╴SP_TYPE
+│   │ └╴SP_R_TR_BRACKET
+│   │ 
+│   ├╴SP_NON_TERM
+│   ├╴SP_COMMA
+│   ├╴NONTERM
+│   │ ├╴SP_L_TR_BRACKET
+│   │ ├╴SP_TYPE
+│   │ └╴SP_R_TR_BRACKET
+│   │ 
+│   ├╴SP_NON_TERM
+│   ├╴SP_COMMA
+│   ├╴NONTERM
+│   │ ├╴SP_L_TR_BRACKET
+│   │ ├╴SP_TYPE
+│   │ └╴SP_R_TR_BRACKET
+│   │ 
+│   ├╴SP_NON_TERM
+│   └╴SP_DOT
+│   
+├╴NONTERM
+│ ├╴SP_NON_TERM
+│ ├╴SP_EQUAL
+│ ├╴NONTERM
+│ │ ├╴NONTERM
+│ │ │ ├╴NONTERM
+│ │ │ │ └╴NONTERM
+│ │ │ │   └╴SP_NON_TERM
+│ │ │ │   
+│ │ │ ├╴NONTERM
+│ │ │ │ └╴NONTERM
+│ │ │ │   └╴TERM
+│ │ │ │   
+│ │ │ └╴NONTERM
+│ │ │   └╴NONTERM
+│ │ │     └╴SP_NON_TERM
+│ │ │     
+│ │ ├╴SP_DIR_SLASH
+│ │ └╴NONTERM
+│ │   └╴NONTERM
+│ │   
+│ └╴SP_DOT
+│ 
+├╴NONTERM
+│ ├╴SP_NON_TERM
+│ ├╴SP_EQUAL
+│ ├╴NONTERM
+│ │ └╴NONTERM
+│ │   ├╴NONTERM
+│ │   │ └╴NONTERM
+│ │   │   └╴TERM
+│ │   │   
+│ │   ├╴NONTERM
+│ │   │ └╴NONTERM
+│ │   │   └╴SP_NON_TERM
+│ │   │   
+│ │   └╴NONTERM
+│ │     └╴NONTERM
+│ │       └╴SP_NON_TERM
+│ │       
+│ └╴SP_DOT
+│ 
+├╴NONTERM
+│ ├╴SP_NON_TERM
+│ ├╴SP_EQUAL
+│ ├╴NONTERM
+│ │ ├╴NONTERM
+│ │ │ ├╴NONTERM
+│ │ │ │ └╴NONTERM
+│ │ │ │   └╴TERM
+│ │ │ │   
+│ │ │ ├╴NONTERM
+│ │ │ │ └╴NONTERM
+│ │ │ │   └╴SP_NON_TERM
+│ │ │ │   
+│ │ │ └╴NONTERM
+│ │ │   └╴NONTERM
+│ │ │     └╴SP_NON_TERM
+│ │ │     
+│ │ ├╴SP_DIR_SLASH
+│ │ └╴NONTERM
+│ │   └╴NONTERM
+│ │   
+│ └╴SP_DOT
+│ 
+├╴NONTERM
+│ ├╴SP_NON_TERM
+│ ├╴SP_EQUAL
+│ ├╴NONTERM
+│ │ └╴NONTERM
+│ │   ├╴NONTERM
+│ │   │ └╴NONTERM
+│ │   │   └╴SP_NON_TERM
+│ │   │   
+│ │   └╴SP_SEM_RULE
+│ │   
+│ └╴SP_DOT
+│ 
+├╴NONTERM
+│ ├╴SP_NON_TERM
+│ ├╴SP_EQUAL
+│ ├╴NONTERM
+│ │ └╴NONTERM
+│ │   ├╴NONTERM
+│ │   │ └╴NONTERM
+│ │   │   └╴SP_NON_TERM
+│ │   │   
+│ │   ├╴SP_SEM_RULE
+│ │   └╴NONTERM
+│ │     ├╴SP_L_BRACE
+│ │     ├╴NONTERM
+│ │     │ ├╴NONTERM
+│ │     │ │ ├╴NONTERM
+│ │     │ │ │ └╴NONTERM
+│ │     │ │ │   └╴TERM
+│ │     │ │ │   
+│ │     │ │ ├╴NONTERM
+│ │     │ │ │ └╴NONTERM
+│ │     │ │ │   └╴SP_NON_TERM
+│ │     │ │ │   
+│ │     │ │ └╴SP_SEM_RULE
+│ │     │ │ 
+│ │     │ ├╴SP_DIR_SLASH
+│ │     │ └╴NONTERM
+│ │     │   ├╴NONTERM
+│ │     │   │ └╴NONTERM
+│ │     │   │   └╴TERM
+│ │     │   │   
+│ │     │   ├╴NONTERM
+│ │     │   │ └╴NONTERM
+│ │     │   │   └╴SP_NON_TERM
+│ │     │   │   
+│ │     │   └╴SP_SEM_RULE
+│ │     │   
+│ │     └╴SP_R_BRACE
+│ │     
+│ └╴SP_DOT
+│ 
+├╴NONTERM
+│ ├╴SP_NON_TERM
+│ ├╴SP_EQUAL
+│ ├╴NONTERM
+│ │ └╴NONTERM
+│ │   ├╴NONTERM
+│ │   │ └╴NONTERM
+│ │   │   └╴SP_NON_TERM
+│ │   │   
+│ │   ├╴SP_SEM_RULE
+│ │   └╴NONTERM
+│ │     ├╴SP_L_BRACE
+│ │     ├╴NONTERM
+│ │     │ ├╴NONTERM
+│ │     │ │ ├╴NONTERM
+│ │     │ │ │ └╴NONTERM
+│ │     │ │ │   └╴TERM
+│ │     │ │ │   
+│ │     │ │ ├╴NONTERM
+│ │     │ │ │ └╴NONTERM
+│ │     │ │ │   └╴SP_NON_TERM
+│ │     │ │ │   
+│ │     │ │ └╴SP_SEM_RULE
+│ │     │ │ 
+│ │     │ ├╴SP_DIR_SLASH
+│ │     │ └╴NONTERM
+│ │     │   ├╴NONTERM
+│ │     │   │ └╴NONTERM
+│ │     │   │   └╴TERM
+│ │     │   │   
+│ │     │   ├╴NONTERM
+│ │     │   │ └╴NONTERM
+│ │     │   │   └╴SP_NON_TERM
+│ │     │   │   
+│ │     │   └╴SP_SEM_RULE
+│ │     │   
+│ │     └╴SP_R_BRACE
+│ │     
+│ └╴SP_DOT
+│ 
+├╴NONTERM
+│ ├╴SP_NON_TERM
+│ ├╴SP_EQUAL
+│ ├╴NONTERM
+│ │ ├╴NONTERM
+│ │ │ ├╴NONTERM
+│ │ │ │ └╴NONTERM
+│ │ │ │   └╴TERM
+│ │ │ │   
+│ │ │ ├╴NONTERM
+│ │ │ │ └╴NONTERM
+│ │ │ │   └╴SP_NON_TERM
+│ │ │ │   
+│ │ │ ├╴NONTERM
+│ │ │ │ └╴NONTERM
+│ │ │ │   └╴TERM
+│ │ │ │   
+│ │ │ └╴SP_SEM_RULE
+│ │ │ 
+│ │ ├╴SP_DIR_SLASH
+│ │ ├╴NONTERM
+│ │ │ ├╴NONTERM
+│ │ │ │ └╴NONTERM
+│ │ │ │   └╴TERM
+│ │ │ │   
+│ │ │ └╴SP_SEM_RULE
+│ │ │ 
+│ │ ├╴SP_DIR_SLASH
+│ │ └╴NONTERM
+│ │   ├╴NONTERM
+│ │   │ └╴NONTERM
+│ │   │   └╴TERM
+│ │   │   
+│ │   ├╴NONTERM
+│ │   │ └╴NONTERM
+│ │   │   └╴TERM
+│ │   │   
+│ │   ├╴NONTERM
+│ │   │ └╴NONTERM
+│ │   │   └╴SP_NON_TERM
+│ │   │   
+│ │   ├╴NONTERM
+│ │   │ └╴NONTERM
+│ │   │   └╴TERM
+│ │   │   
+│ │   └╴SP_SEM_RULE
+│ │   
+│ └╴SP_DOT
+│ 
+└╴SP_SEM_RULE
+
+Following intermediate representation of input grammar has been received:
+__________________________________
+%termDecl <__int__>TERM.
+%nonTermDecl <__int__>SP_NON_TERM,<__int__>SP_NON_TERM,<__int__>SP_NON_TERM.
+SP_NON_TERM = SP_NON_TERM TERM SP_NON_TERM| .
+SP_NON_TERM = TERM SP_NON_TERM SP_NON_TERM.
+SP_NON_TERM = TERM SP_NON_TERM SP_NON_TERM| .
+SP_NON_TERM = SP_NON_TERM.
+SP_NON_TERM = SP_NON_TERM { TERM SP_NON_TERM| TERM SP_NON_TERM}.
+SP_NON_TERM = SP_NON_TERM { TERM SP_NON_TERM| TERM SP_NON_TERM}.
+SP_NON_TERM = TERM SP_NON_TERM TERM| TERM| TERM TERM SP_NON_TERM TERM.
+__________________________________

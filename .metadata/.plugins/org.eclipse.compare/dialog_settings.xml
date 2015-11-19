@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="ResizableDialogBounds">
+		<item value="150" key="x"/>
+		<item value="1626" key="width"/>
+		<item value="24" key="y"/>
+		<item value="833" key="height"/>
+	</section>
+	<section name="PatchWizard">
+		<item value="805" key="DIALOG_WIDTH"/>
+		<item value="1|Ubuntu|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
+		<item value="769" key="DIALOG_HEIGHT"/>
+		<item value="561" key="DIALOG_X_ORIGIN"/>
+		<item value="4" key="DIALOG_Y_ORIGIN"/>
+	</section>
+	<section name="org.eclipse.compare.internal.CompareDialog">
+		<item value="1206" key="DIALOG_WIDTH"/>
+		<item value="1|Ubuntu|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
+		<item value="704" key="DIALOG_HEIGHT"/>
+		<item value="-613" key="DIALOG_X_ORIGIN"/>
+		<item value="-48" key="DIALOG_Y_ORIGIN"/>
+	</section>
+	<section name="PreviewPatchPage">
+	</section>
+</section>
