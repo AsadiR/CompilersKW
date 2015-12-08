@@ -1,0 +1,16 @@
+%{ %}
+%term <__int__> @NUMBER.
+%nonterm <__int__> expr, <__int__> addendum, <__int__> factor.
+program = statement @SEMICOLON program | .
+statement = @PRINT out outlist.
+outlist= @COMMA out outlist  | .
+out =  expr %{printf("%d\n", $1);%}.
+expr = addendum %{$$=$1;%} { @PLUS addendum %{$$+=$1;%} 
+			| @MINUS addendum %{$$-=$1;%} }.
+addendum = factor %{$$=$1;%} { @MULTI factor %{$$*=$1;%} 
+			| @DIVIDE factor %{$$/=$1;%} }.
+factor %{ %} = @LPAREN expr @RPAREN %{$$=$1;%}
+ 			| @NUMBER %{$$=$1;%}
+			| @MINUS @LPAREN expr @RPAREN %{$$=-$1;%}.
+%{ %}
+

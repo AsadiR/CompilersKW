@@ -8,8 +8,9 @@
 #include "Node.h"
 
 
-Node::Node(Node *parent) {
+Node::Node(Node *parent, string nonTermName) {
 	this->parent = parent;
+	this->nonTermName = nonTermName;
 	token = NULL;
 }
 
@@ -31,10 +32,10 @@ void Node::buildStr(Node *parent, stringstream *res, string ident) {
 
 
 	if (parent == NULL) {
-		(*res) << (token==NULL ? "NONTERM" : Domains[token->tag]) << "\n";
+		(*res) << (token==NULL ? nonTermName : Domains[token->tag]) << "\n";
 	} else {
 		(*res) << ident << (isItLast ? "└╴" : "├╴")
-				<< (token==NULL ? "NONTERM" : Domains[token->tag]) << "\n";
+				<< (token==NULL ? nonTermName : Domains[token->tag]) << "\n";
 		if (isItLast && this->children.empty())
 			(*res) << ident << "\n";
 		ident += string(isItLast ? "  " : "│ ");

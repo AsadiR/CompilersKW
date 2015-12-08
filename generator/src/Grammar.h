@@ -19,6 +19,11 @@
 extern char const* Domains[];
 using namespace std;
 #define EMPTY_RULE_TAG -1
+#define MODE_EMPTY  0
+#define MODE_SIMPLE  1
+#define MODE_PARENTS  2
+#define MODE_OPTIONAL  3
+#define MODE_ITERATION  4
 
 class Grammar;
 

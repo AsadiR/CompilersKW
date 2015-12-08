@@ -1,3 +1,4 @@
+	%{...%}
 
 	%term <__string__> @SEMRULE, <__string__> @TYPE, 
 		<__string__> @NONTERM, <__string__> @TERM.
@@ -16,6 +17,7 @@
 			  '{' multi_addendum '}' |
 			   '(' multi_addendum ')' |
 			    ident | .
-	ident = @TERM | @NONTERM .
+	ident %{..%} = @TERM | @NONTERM %{...%}.
+	%{...%}
 	
 	

@@ -9,13 +9,64 @@
 #include <typeinfo>
 #include <fstream>
 #include "Generator.h"
+#include "GeneratedParser.h"
 
 using namespace std;
 
+void lexicalAnalysis(vector<YYSTYPE*> &tokens, vector<YYLTYPE*> &coords, char *buf) {
+	int tag ;
+	struct Extra extra;
+	yyscan_t scanner;
+	init_scanner(buf, &scanner, &extra);
+
+	do
+	{
+		YYSTYPE *value = new YYSTYPE;
+		YYLTYPE *coord = new YYLTYPE;
+		tag = yylex (value, coord, scanner);
+		tokens.insert(tokens.end(), value);
+		coords.insert(coords.end(), coord);
+	} while ( tag != 0);
+}
+
+
+
+void test0() {
+	Generator *generator = new Generator("resources/inputGrammar.txt", "results/logs.txt");
+	generator->generateCppParser("GeneratedParser", "results/GeneratedParser");
+	delete generator;
+}
+
+
+void test1() {
+	string statement = "PRINT 1+1, 3*2+1; PRINT -(7-2/2);";
+
+	vector<YYSTYPE*> tokens;
+	vector<YYLTYPE*> coords;
+	char *buf = (char*)statement.c_str();
+
+	lexicalAnalysis(tokens, coords, buf);
+
+	GeneratedParser parser(tokens);
+	Node *root = parser.parse();
+
+	cout << (root->to_string());
+	delete root;
+
+}
 
 int main ()	{
-	Generator *generator = new Generator("firstGrammar.txt", "logs.txt");
-	generator->generateCppParser("GeneratedParser");
+	int mode;
+	cin >> mode;
+	switch (mode) {
+		case 0:
+			test0();
+			break;
+		case 1:
+			test1();
+			break;
+	}
+
 	cout << "\nEND\n";
 	return 0;
 }

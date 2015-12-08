@@ -330,22 +330,42 @@ __string__			{
 [0-9][0-9]*			{
 							yylval->tag = NUMBER;
 							yylval->attr = new TYPES;
-							yylval->attr->__int__ = atoi( yytext );
-							return TERM;							
+							int *intValue = new int( atoi( yytext ) );
+							yylval->attr->__int__ = intValue;
+							return NUMBER;							
 					}
 					
-\+					return PLUS;
-\-					return MINUS;
-\/					return DIVIDE;
-\;					return SEMICOLON;
-PRINT				return PRINT;					
+\+					{
+							yylval->tag = PLUS;
+							return PLUS;
+					}
+					
+\-					{
+							yylval->tag = MINUS;
+							return MINUS;
+					}
+					
+\/					{
+							yylval->tag = DIVIDE;
+							return DIVIDE;
+					}
+					
+\;					{
+							yylval->tag = SEMICOLON;
+							return SEMICOLON;
+					}
+					
+PRINT				{
+							yylval->tag = PRINT;
+							return PRINT;
+					}					
 					
 .					{
-						yylval->tag = ERROR;
-						yylval->attr = new TYPES;
-						string s = string ("ERROR AT") + tokenToStr(yylval, yylloc);
-						yylval->attr->__string__ = new string(s.c_str());
-						return ERROR;
+							yylval->tag = ERROR;
+							yylval->attr = new TYPES;
+							string s = string ("ERROR AT") + tokenToStr(yylval, yylloc);
+							yylval->attr->__string__ = new string(s.c_str());
+							return ERROR;
 					}
 
 

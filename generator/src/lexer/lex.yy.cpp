@@ -1383,38 +1383,54 @@ YY_RULE_SETUP
 {
 							yylval->tag = NUMBER;
 							yylval->attr = new TYPES;
-							yylval->attr->__int__ = atoi( yytext );
-							return TERM;							
+							int *intValue = new int( atoi( yytext ) );
+							yylval->attr->__int__ = intValue;
+							return NUMBER;							
 					}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 337 "lexer.l"
-return PLUS;
+#line 338 "lexer.l"
+{
+							yylval->tag = PLUS;
+							return PLUS;
+					}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 338 "lexer.l"
-return MINUS;
+#line 343 "lexer.l"
+{
+							yylval->tag = MINUS;
+							return MINUS;
+					}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 339 "lexer.l"
-return DIVIDE;
+#line 348 "lexer.l"
+{
+							yylval->tag = DIVIDE;
+							return DIVIDE;
+					}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 340 "lexer.l"
-return SEMICOLON;
+#line 353 "lexer.l"
+{
+							yylval->tag = SEMICOLON;
+							return SEMICOLON;
+					}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 341 "lexer.l"
-return PRINT;					
+#line 358 "lexer.l"
+{
+							yylval->tag = PRINT;
+							return PRINT;
+					}					
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 343 "lexer.l"
+#line 363 "lexer.l"
 {
 						yylval->tag = ERROR;
 						yylval->attr = new TYPES;
@@ -1425,10 +1441,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 352 "lexer.l"
+#line 372 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 1432 "lex.yy.cpp"
+#line 1448 "lex.yy.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2567,7 +2583,7 @@ void yyfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 352 "lexer.l"
+#line 372 "lexer.l"
 
 
 const char* Domains[] = {

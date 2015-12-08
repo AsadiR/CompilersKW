@@ -44,6 +44,9 @@ string Grammar::to_string() {
 	strValue.clear();
 
 	n = termDecl->size();
+
+	strValue << ( initSemRule==NULL ? "" : *(initSemRule->attr->__string__) ) << "\n";
+
 	if (n!=0) strValue << "%termDecl ";
 	for (it=termDecl->begin(),i=0; it!=termDecl->end(); ++it,i++)
 		strValue << (*it).second->to_string() << (i!=n-1?",":".\n");
@@ -56,6 +59,8 @@ string Grammar::to_string() {
 	n = rules->size();
 	for (i=0; i<n; i++)
 		strValue << rules->at(i)->to_string();
+
+	strValue << ( finalSemRule==NULL ? "" : *(finalSemRule->attr->__string__) ) << "\n";
 	return strValue.str();
 }
 
@@ -163,7 +168,7 @@ DeclElem::~DeclElem() {
 string DeclElem::to_string() {
 	stringstream ss;
 	ss << "<" << *(attrTypeToken->attr->__string__)
-			<< ">" << string(Domains[sym->tag]);
+			<< ">" << *(sym->attr->__string__);
 	return ss.str();
 }
 
@@ -238,6 +243,7 @@ Rule* RuleFactory::create() {
 	YYSTYPE *lpart = ruleNode->children[i]->token;
 	i++;
 	YYSTYPE *semR = NULL;
+	//adding of semantic rule to rule of grammar
 	if (i<ruleNode->children.size()
 			&& ruleNode->children[i]->token!=NULL
 			&& ruleNode->children[i]->token->tag==SP_SEM_RULE) {
@@ -250,7 +256,6 @@ Rule* RuleFactory::create() {
 	if (ruleNode->children[i]->token->tag!=SP_DOT)
 		throw runtime_error("GenerationError! Expected SP_DOT!\n");
 	cout << "rule created" << "\n";
-
 
 	return new Rule(lpart,rpart,semR);
 }
@@ -280,6 +285,7 @@ Addendum* RuleFactory::createAddendum(Node* parent) {
 	do {
 		Factor *factor = createFactor(parent->children[i]);
 		i++;
+		//adding of semantic rule to factor
 		if (i < (int)parent->children.size()
 				&& parent->children[i]->token!= NULL
 				&& parent->children[i]->token->tag==SP_SEM_RULE) {
@@ -296,22 +302,22 @@ Factor* RuleFactory::createFactor(Node* parent) {
 	cout << "trying to create factor ..." << "\n";
 	Factor * factor = NULL;
 	if (parent->children.size()==0)
-		factor = new Factor(0, grammar);
+		factor = new Factor(MODE_EMPTY, grammar);
 	if (parent->children.size()==1) {
 		YYSTYPE *ident = parent->children[0]->children[0]->token;
-		factor = new Factor(1, ident, grammar);
+		factor = new Factor(MODE_SIMPLE, ident, grammar);
 	}
 	if (parent->children.size()==3 && parent->children[0]->token->tag == SP_L_PARENT) {
 		MultiAddendum *md = createMultiAddendum(parent->children[1]);
-		factor = new Factor(2, md, grammar);
+		factor = new Factor(MODE_PARENTS, md, grammar);
 	}
 	if (parent->children.size()==3 && parent->children[0]->token->tag == SP_L_SQ_BRACKET) {
 		MultiAddendum *md = createMultiAddendum(parent->children[1]);
-		factor = new Factor(3, md, grammar);
+		factor = new Factor(MODE_OPTIONAL, md, grammar);
 	}
 	if (parent->children.size()==3 && parent->children[0]->token->tag == SP_L_BRACE) {
 		MultiAddendum *md = createMultiAddendum(parent->children[1]);
-		factor =  new Factor(4, md, grammar);
+		factor =  new Factor(MODE_ITERATION, md, grammar);
 	}
 	cout << "factor created" << "\n";
 	return factor;
@@ -349,26 +355,30 @@ Factor::~Factor() {
 
 string Factor::to_string() {
 	stringstream ss;
-	if (mode==0)
-		ss << "";
-	if (mode==1)
-		ss << Domains[ident->tag];
-	if (mode==2)
-		ss << "(" << m_addendum->to_string() << ")";
-	if (mode==3)
-		ss << "[" << m_addendum->to_string() << "]";
-	if (mode==4)
-		ss << "{" << m_addendum->to_string() << "}";
+	if (mode==MODE_EMPTY)
+		ss << " " << ( semRule==NULL ? "" : *(semRule->attr->__string__) );
+	if (mode==MODE_SIMPLE)
+		ss << *(ident->attr->__string__) << " "
+			<< ( semRule==NULL ? "" : *(semRule->attr->__string__) );
+	if (mode==MODE_PARENTS)
+		ss << "(" << m_addendum->to_string() << ")" << " "
+			<< ( semRule==NULL ? "" : *(semRule->attr->__string__) );
+	if (mode==MODE_OPTIONAL)
+		ss << "[" << m_addendum->to_string() << "]" << " "
+			<< ( semRule==NULL ? "" : *(semRule->attr->__string__) );
+	if (mode==MODE_ITERATION)
+		ss << "{" << m_addendum->to_string() << "}" << " "
+			<< ( semRule==NULL ? "" : *(semRule->attr->__string__) );
 	return ss.str();
 }
 
 bool Factor::getFirst() {
 	cout << "try to create first set for factor ..." << "\n";
 	unsigned int n = firstSet.size();
-	if (mode==0) {
+	if (mode==MODE_EMPTY) {
 		firstSet.insert(EMPTY_RULE_TAG);
 	}
-	if (mode==1) {
+	if (mode==MODE_SIMPLE) {
 		if (ident->tag==SP_NON_TERM) {
 			int index = grammar->strToInt->at(*(ident->attr->__string__));
 			Rule *r = grammar->rules->at(index);
@@ -377,16 +387,16 @@ bool Factor::getFirst() {
 			firstSet.insert(ident->mark);
 		} else throw runtime_error("Generation error! In getFirst() expected TERM");
 	}
-	if (mode==2) {
+	if (mode==MODE_PARENTS) {
 		m_addendum->getFirst();
 		firstSet.insert(m_addendum->firstSet.begin(), m_addendum->firstSet.end());
 	}
-	if (mode==3) {
+	if (mode==MODE_OPTIONAL) {
 		m_addendum->getFirst();
 		firstSet.insert(m_addendum->firstSet.begin(), m_addendum->firstSet.end());
 		firstSet.insert(EMPTY_RULE_TAG);
 	}
-	if (mode==4) {
+	if (mode==MODE_ITERATION) {
 		m_addendum->getFirst();
 		firstSet.insert(m_addendum->firstSet.begin(), m_addendum->firstSet.end());
 		firstSet.insert(EMPTY_RULE_TAG);
@@ -478,7 +488,9 @@ Rule::~Rule() {
 
 string Rule::to_string() {
 	stringstream ss;
-	ss << Domains[lpart->tag] << " =" << rpart->to_string()
+	ss << *(lpart->attr->__string__) << " "
+			<< ( semRule==NULL ? "" : *(semRule->attr->__string__) )
+			<< " =" << rpart->to_string()
 			<< ".\n";
 	return ss.str();
 }

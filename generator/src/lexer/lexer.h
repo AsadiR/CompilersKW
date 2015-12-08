@@ -61,10 +61,11 @@ extern int yydebug;
 	  DIVIDE = 26,
 	  ERROR = 27
   };
+
   union TYPES {
 	  string  *__string__;
-	  int __int__;
-	  char __char__;
+	  int *__int__;
+	  char *__char__;
   };
 
 #endif

@@ -18,10 +18,11 @@ public:
 	//дочерние узлы
 	Node* parent;
 	vector<Node*> children;
+	string nonTermName;
 	YYSTYPE *token;
 	//атрибут узла
 	// ATTR attr;
-	Node(Node *parent);
+	Node(Node *parent, string nonTermName);
 	Node* addChild(Node *child);
 
 	//ищет вершины с токеном с тэгом tag,
