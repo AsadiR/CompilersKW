@@ -76,11 +76,11 @@ map<string,DeclElem*>* Grammar::getTermDeclMap(map<string,DeclElem*>* tdm) {
 	if (nodes->size()>1)
 		throw runtime_error("More than one SP_DECL_TERM!\n");
 
-	cout << "SP_DECL_TERM is found\n";
+	//cout << "SP_DECL_TERM is found\n";
 	Node* term_decl_NT = (*nodes)[0]->parent;
 
-	cout << "sizeOfDeclTermArray:" << term_decl_NT->children.size() << "\n";
-	cout << term_decl_NT->to_string() <<"\n";
+	//cout << "sizeOfDeclTermArray:" << term_decl_NT->children.size() << "\n";
+	//cout << term_decl_NT->to_string() <<"\n";
 
 	DeclElemFactory factory(&(term_decl_NT->children), 1, TERM);
 	while(factory.hasNext) {
@@ -103,11 +103,11 @@ map<string,DeclElem*>* Grammar::getNonTermDeclMap(map<string,DeclElem*>* tdm) {
 	if (nodes->size()>1)
 		throw runtime_error("More than one SP_DECL_NONTERM!\n");
 
-	cout << "SP_DECL_NONTERM is found\n";
+	//cout << "SP_DECL_NONTERM is found\n";
 	Node* term_decl_NT = (*nodes)[0]->parent;
 
-	cout << "sizeOfDeclNonTermArray:" << term_decl_NT->children.size() << "\n";
-	cout << term_decl_NT->to_string() <<"\n";
+	//cout << "sizeOfDeclNonTermArray:" << term_decl_NT->children.size() << "\n";
+	//cout << term_decl_NT->to_string() <<"\n";
 
 	DeclElemFactory factory(&(term_decl_NT->children), 1, SP_NON_TERM);
 	while(factory.hasNext) {
@@ -144,14 +144,14 @@ map<string, int>* Grammar::boundNonTerms(map<string, int>* strToInt) {
 void Grammar::getFirst() {
 	unsigned int i, n=rules->size();
 	bool smthChanged = true;
-	cout << "trying to create first sets ..." << "\n";
+	//cout << "trying to create first sets ..." << "\n";
 	while (smthChanged) {
 		smthChanged = false;
 		for (i=0; i<n; i++) {
 			smthChanged = rules->at(i)->getFirst() || smthChanged;
 		}
 	}
-	cout << "first sets have been created" << "\n";
+	//cout << "first sets have been created" << "\n";
 }
 
 
@@ -184,14 +184,14 @@ DeclElemFactory::~DeclElemFactory() {
 }
 
 DeclElem* DeclElemFactory::create() {
-	cout << "try to create declElem ..." << "\n";
+	//cout << "try to create declElem ..." << "\n";
 	if (hasNext==false)
 		throw runtime_error("GenerationError! Factory is empty!\n");
 	YYSTYPE *sym = NULL;
 	YYSTYPE *type = NULL;
 
 	if (array->at(index)->token==NULL) {
-		cout << "checking of type ..." << "\n";
+		//cout << "checking of type ..." << "\n";
 		vector<Node*> &attr = array->at(index)->children;
 		if (attr.at(0)==NULL || attr.at(1)==NULL || attr.at(2)==NULL)
 			throw runtime_error("GenerationError! Expected not null tokens!\n");
@@ -205,12 +205,12 @@ DeclElem* DeclElemFactory::create() {
 		index++;
 	}
 
-	cout << "checking of elem ..." << "\n";
+	//cout << "checking of elem ..." << "\n";
 	if (array->at(index)->token->tag!=elemTag)
 		throw runtime_error("GenerationError! Expected specified elem!\n");
 	sym = array->at(index)->token;
 	index++;
-	cout << "checking of delimiter ..." << "\n";
+	//cout << "checking of delimiter ..." << "\n";
 	if (array->at(index)->token->tag!=SP_COMMA && array->at(index)->token->tag!=SP_DOT)
 		throw runtime_error("GenerationError! Expected SP_COMMA or SP_DOT!\n");
 	if (array->at(index)->token->tag==SP_DOT) {
@@ -221,7 +221,7 @@ DeclElem* DeclElemFactory::create() {
 	}
 	index++;
 	DeclElem* res = new DeclElem(sym,type);
-	cout << "declElem is created" << "\n";
+	//cout << "declElem is created" << "\n";
 	return res;
 }
 
@@ -236,10 +236,10 @@ RuleFactory::~RuleFactory() {
 
 Rule* RuleFactory::create() {
 	unsigned int i=0;
-	cout << "try to create rule:\n";
+	//cout << "try to create rule:\n";
 	if (ruleNode->children[i]->token->tag!=SP_NON_TERM)
 		throw runtime_error("GenerationError! Expected SP_NON_TERM!\n");
-	cout << "	leftPart:" << *(ruleNode->children[i]->token->attr->__string__) <<  "\n";
+	//cout << "	leftPart:" << *(ruleNode->children[i]->token->attr->__string__) <<  "\n";
 	YYSTYPE *lpart = ruleNode->children[i]->token;
 	i++;
 	YYSTYPE *semR = NULL;
@@ -255,13 +255,13 @@ Rule* RuleFactory::create() {
 	i++;
 	if (ruleNode->children[i]->token->tag!=SP_DOT)
 		throw runtime_error("GenerationError! Expected SP_DOT!\n");
-	cout << "rule created" << "\n";
+	//cout << "rule created" << "\n";
 
 	return new Rule(lpart,rpart,semR);
 }
 
 MultiAddendum* RuleFactory::createMultiAddendum(Node* parent) {
-	cout << "try to create multiAddendum ..." << "\n";
+	//cout << "try to create multiAddendum ..." << "\n";
 	MultiAddendum* md = new MultiAddendum();
 	int i=0;
 	Addendum *addendum;
@@ -274,12 +274,12 @@ MultiAddendum* RuleFactory::createMultiAddendum(Node* parent) {
 			throw runtime_error("GenerationError! Expected SP_DIR_SLASH!\n");
 		i++;
 	} while(i < (int)parent->children.size());
-	cout << "multiAddendum created" << "\n";
+	//cout << "multiAddendum created" << "\n";
 	return md;
 }
 
 Addendum* RuleFactory::createAddendum(Node* parent) {
-	cout << "try to create addendum ..." << "\n";
+	//cout << "try to create addendum ..." << "\n";
 	int i=0;
 	Addendum* a = new Addendum();
 	do {
@@ -294,12 +294,12 @@ Addendum* RuleFactory::createAddendum(Node* parent) {
 		}
 		a->factors.insert(a->factors.end(), factor);
 	} while (i < (int)parent->children.size());
-	cout << "addendum created" << "\n";
+	//cout << "addendum created" << "\n";
 	return a;
 }
 
 Factor* RuleFactory::createFactor(Node* parent) {
-	cout << "trying to create factor ..." << "\n";
+	//cout << "trying to create factor ..." << "\n";
 	Factor * factor = NULL;
 	if (parent->children.size()==0)
 		factor = new Factor(MODE_EMPTY, grammar);
@@ -319,7 +319,7 @@ Factor* RuleFactory::createFactor(Node* parent) {
 		MultiAddendum *md = createMultiAddendum(parent->children[1]);
 		factor =  new Factor(MODE_ITERATION, md, grammar);
 	}
-	cout << "factor created" << "\n";
+	//cout << "factor created" << "\n";
 	return factor;
 }
 
@@ -373,7 +373,7 @@ string Factor::to_string() {
 }
 
 bool Factor::getFirst() {
-	cout << "try to create first set for factor ..." << "\n";
+	//cout << "try to create first set for factor ..." << "\n";
 	unsigned int n = firstSet.size();
 	if (mode==MODE_EMPTY) {
 		firstSet.insert(EMPTY_RULE_TAG);
@@ -401,7 +401,7 @@ bool Factor::getFirst() {
 		firstSet.insert(m_addendum->firstSet.begin(), m_addendum->firstSet.end());
 		firstSet.insert(EMPTY_RULE_TAG);
 	}
-	cout << "first set for factor has been created" << "\n";
+	//cout << "first set for factor has been created" << "\n";
 	return n!=firstSet.size();
 }
 
@@ -420,7 +420,7 @@ string Addendum::to_string() {
 }
 
 bool Addendum::getFirst() {
-	cout << "try to create first set for addendum..." << "\n";
+	//cout << "try to create first set for addendum..." << "\n";
 	unsigned int i, n=factors.size();
 	bool smthChanged = false;
 	bool continueFlag = true;
@@ -442,7 +442,7 @@ bool Addendum::getFirst() {
 		bool res = firstSet.insert(EMPTY_RULE_TAG).second;
 		smthChanged = res || smthChanged;
 	}
-	cout << "first set for addendum has been created" << "\n";
+	//cout << "first set for addendum has been created" << "\n";
 	return smthChanged;
 }
 
@@ -463,7 +463,7 @@ string MultiAddendum::to_string() {
 }
 
 bool MultiAddendum::getFirst() {
-	cout << "try to create first set for multiAddendum ..." << "\n";
+	//cout << "try to create first set for multiAddendum ..." << "\n";
 	unsigned int i, n=addendums.size();
 	bool smthChanged = false;
 	for (i=0; i<n; i++) {
@@ -471,7 +471,7 @@ bool MultiAddendum::getFirst() {
 		smthChanged = a->getFirst() || smthChanged;
 		firstSet.insert(a->firstSet.begin(), a->firstSet.end());
 	}
-	cout << "first set for multiAddendum has been created" << "\n";
+	//cout << "first set for multiAddendum has been created" << "\n";
 	return smthChanged;
 }
 
@@ -496,10 +496,10 @@ string Rule::to_string() {
 }
 
 bool Rule::getFirst() {
-	cout << "try to create first set for rule ..." << "\n";
+	//cout << "try to create first set for rule ..." << "\n";
 	bool res = rpart->getFirst();
 	firstSet.insert(rpart->firstSet.begin(),rpart->firstSet.end());
-	cout << "first set for rule has been created" << "\n";
+	//cout << "first set for rule has been created" << "\n";
 	return res;
 }
 

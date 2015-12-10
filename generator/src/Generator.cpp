@@ -7,7 +7,7 @@
 
 #include "Generator.h"
 
-Generator::Generator(string inputGrammarFileName, string logsFileName) {
+Generator::Generator(string inputGrammarFileName, string logsFileName, int numOfParser) {
     try {
 		std::ifstream in(inputGrammarFileName.c_str());
 		std::string contents((istreambuf_iterator<char>(in)), istreambuf_iterator<char>());
@@ -21,8 +21,20 @@ Generator::Generator(string inputGrammarFileName, string logsFileName) {
 		lexicalAnalysis();
 		(*logs).flush();
 		(*logs) << "Parsing has been started.\n";
-		Parser p(tokens);
-		root = p.parse();
+		switch (numOfParser) {
+			case COMMON_PARSER:
+			{
+				Parser p(tokens);
+				root = p.parse();
+				break;
+			}
+			case GENERATED_PARSER:
+			{
+				GeneratedParser p(tokens);
+				root = p.parse();
+				break;
+			}
+		}
 		(*logs) << "Parsing has been finished. Following parsing tree was received:\n";
 		(*logs) << root->to_string();
 		(*logs).flush();
@@ -64,8 +76,11 @@ Generator::~Generator() {
 	for (vector<YYSTYPE*>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
 		if ((*it)->attr!=NULL) {
 			TYPES *t = (*it)->attr;
-			if (t->__string__!=NULL) delete t->__string__;
+			if (t->__string__!=NULL) delete (t->__string__);
 			delete t;
+		}
+		if ((*it)->attr_type!=NULL) {
+			delete (*it)->attr_type;
 		}
 		delete(*it);
 	}

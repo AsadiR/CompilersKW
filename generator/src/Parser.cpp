@@ -16,7 +16,7 @@ Parser::Parser(vector<YYSTYPE*> t) {
 	root = NULL;
 	this->tokens = t;
 	sym = tokens[0];
-	cout << "Parser Created\n";
+	//cout << "Parser Created\n";
 	//cout << "firstSym:" << Domains[sym->tag] << "\n";
 }
 
@@ -38,7 +38,7 @@ void Parser::parseGrammar(Node *parent) {
 		expectedToken(parent->addChild(new Node(parent,sym)), SP_SEM_RULE);
 	}
 	parseInit(parent->addChild(new Node(parent, "init")));
-	cout << "ParsingOfRules...\n";
+	//cout << "ParsingOfRules...\n";
 	parseRule(parent->addChild(new Node(parent, "rule")));
 	while (sym->tag==SP_NON_TERM) {
 		parseRule(parent->addChild(new Node(parent, "rule")));
@@ -90,7 +90,7 @@ void Parser::parseAttribute(Node *parent) {
 }
 //rule = @NONTERM [@SEMRULE]'=' multi_addendum '.' .
 void Parser::parseRule(Node *parent) {
-	cout << "Rule...\n";
+	//cout << "Rule...\n";
 	expectedToken(parent->addChild(new Node(parent,sym)), SP_NON_TERM);
 	if (sym->tag==SP_SEM_RULE)
 		expectedToken(parent->addChild(new Node(parent,sym)), SP_SEM_RULE);

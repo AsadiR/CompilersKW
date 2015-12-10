@@ -13,10 +13,9 @@
 
 using namespace std;
 
-void lexicalAnalysis(vector<YYSTYPE*> &tokens, vector<YYLTYPE*> &coords, char *buf) {
+void lexicalAnalysis(vector<YYSTYPE*> &tokens, vector<YYLTYPE*> &coords, char *buf, yyscan_t &scanner) {
 	int tag ;
 	struct Extra extra;
-	yyscan_t scanner;
 	init_scanner(buf, &scanner, &extra);
 
 	do
@@ -29,30 +28,66 @@ void lexicalAnalysis(vector<YYSTYPE*> &tokens, vector<YYLTYPE*> &coords, char *b
 	} while ( tag != 0);
 }
 
+void freeLaMemory(vector<YYSTYPE*> &tokens, vector<YYLTYPE*> &coords, yyscan_t &scanner) {
+	for (vector<YYSTYPE*>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
+			/*cout << "check" << endl;
+			cout << (*it)->attr << endl;
+			cout << (*it)->attr_type << endl;*/
+			if ((*it)->attr!=NULL) {
+				TYPES *t = (*it)->attr;
+				if (t->__int__!=NULL) delete (t->__int__);
+				delete t;
+			}
+			if ((*it)->attr_type!=NULL) {
+				delete (*it)->attr_type;
+			}
+			delete(*it);
+	}
+
+	for (vector<YYLTYPE*>::iterator it = coords.begin() ; it != coords.end(); ++it)
+			delete(*it);
+	destroy_scanner(scanner);
+}
+
 
 
 void test0() {
-	Generator *generator = new Generator("resources/inputGrammar.txt", "results/logs.txt");
+	Generator *generator = new Generator("resources/firstGrammar.txt",
+			"results/logs.txt", COMMON_PARSER);
 	generator->generateCppParser("GeneratedParser", "results/GeneratedParser");
 	delete generator;
 }
 
-
 void test1() {
-	string statement = "PRINT 1+1, 3*2+1; PRINT -(7-2/2);";
+	Generator *generator = new Generator("resources/firstGrammar.txt",
+			"results/logs.txt", GENERATED_PARSER);
+	generator->generateCppParser("GeneratedParser", "results/GeneratedParser");
+	delete generator;
+}
 
+void test2() {
+	Generator *generator = new Generator("resources/inputGrammar.txt",
+			"results/logs.txt", GENERATED_PARSER);
+	generator->generateCppParser("GeneratedParser", "results/GeneratedParser");
+	delete generator;
+}
+
+void test3() {
+	std::ifstream in("resources/test.txt");
+	std::string context((istreambuf_iterator<char>(in)), istreambuf_iterator<char>());
+	//string context = "PRINT 1+1, 3*2+1; PRINT -(7-2/2);";
+	yyscan_t scanner;
 	vector<YYSTYPE*> tokens;
 	vector<YYLTYPE*> coords;
-	char *buf = (char*)statement.c_str();
-
-	lexicalAnalysis(tokens, coords, buf);
+	char *buf = (char*)context.c_str();
+	lexicalAnalysis(tokens, coords, buf, scanner);
 
 	GeneratedParser parser(tokens);
 	Node *root = parser.parse();
 
 	cout << (root->to_string());
+	freeLaMemory(tokens, coords, scanner);
 	delete root;
-
 }
 
 int main ()	{
@@ -65,9 +100,15 @@ int main ()	{
 		case 1:
 			test1();
 			break;
+		case 2:
+			test2();
+			break;
+		case 3:
+			test3();
+			break;
 	}
 
-	cout << "\nEND\n";
+	cout << "\nEND_OF_PROGRAM\n";
 	return 0;
 }
 

@@ -30,7 +30,7 @@
 			}                                              \
 			else                                           \
 				extra->cur_column++;                       \
-			}                                              \
+		}                                              	   \
 		                                                   \
 		yylloc->last_line = extra->cur_line;               \
 		yylloc->last_column = extra->cur_column;           \

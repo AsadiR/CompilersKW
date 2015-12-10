@@ -585,7 +585,7 @@ static yyconst flex_int16_t yy_chk[275] =
 			}                                              \
 			else                                           \
 				extra->cur_column++;                       \
-			}                                              \
+		}                                              	   \
 		                                                   \
 		yylloc->last_line = extra->cur_line;               \
 		yylloc->last_column = extra->cur_column;           \
@@ -1432,11 +1432,11 @@ case 59:
 YY_RULE_SETUP
 #line 363 "lexer.l"
 {
-						yylval->tag = ERROR;
-						yylval->attr = new TYPES;
-						string s = string ("ERROR AT") + tokenToStr(yylval, yylloc);
-						yylval->attr->__string__ = new string(s.c_str());
-						return ERROR;
+							yylval->tag = ERROR;
+							yylval->attr = new TYPES;
+							string s = string ("ERROR AT") + tokenToStr(yylval, yylloc);
+							yylval->attr->__string__ = new string(s.c_str());
+							return ERROR;
 					}
 	YY_BREAK
 case 60:

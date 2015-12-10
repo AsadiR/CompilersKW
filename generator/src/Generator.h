@@ -14,9 +14,13 @@
 #include "lexer.h"
 #include "Grammar.h"
 #include "Parser.h"
+#include "GeneratedParser.h"
 #include <cctype>
 #include <algorithm>
 #include <typeinfo>
+#define COMMON_PARSER 0
+#define GENERATED_PARSER 1
+
 using namespace std;
 
 extern char const* Domains[];
@@ -47,7 +51,7 @@ private:
 class Generator {
 public:
 	Generator(string inputGrammarFileName,
-			string logsFileName);
+			string logsFileName, int numOfParser);
 	virtual ~Generator();
 	void generateCppParser(string className, string pathToFile);
 private:
