@@ -49,33 +49,16 @@ void freeLaMemory(vector<YYSTYPE*> &tokens, vector<YYLTYPE*> &coords, yyscan_t &
 	destroy_scanner(scanner);
 }
 
-
-
-void test0() {
-	Generator *generator = new Generator("resources/firstGrammar.txt",
-			"results/logs.txt", COMMON_PARSER);
-	generator->generateCppParser("GeneratedParser", "results/GeneratedParser");
+void generate(string pathToInputGrammar, string className, string pathToFile, int mode) {
+	Generator *generator = new Generator(pathToInputGrammar,
+			"results/logs.txt", mode);
+	generator->generateCppParser(className, pathToFile);
 	delete generator;
 }
 
-void test1() {
-	Generator *generator = new Generator("resources/firstGrammar.txt",
-			"results/logs.txt", GENERATED_PARSER);
-	generator->generateCppParser("GeneratedParser", "results/GeneratedParser");
-	delete generator;
-}
-
-void test2() {
-	Generator *generator = new Generator("resources/inputGrammar.txt",
-			"results/logs.txt", GENERATED_PARSER);
-	generator->generateCppParser("GeneratedParser", "results/GeneratedParser");
-	delete generator;
-}
-
-void test3() {
-	std::ifstream in("resources/test.txt");
+void test(string testFileName) {
+	std::ifstream in(testFileName.c_str());
 	std::string context((istreambuf_iterator<char>(in)), istreambuf_iterator<char>());
-	//string context = "PRINT 1+1, 3*2+1; PRINT -(7-2/2);";
 	yyscan_t scanner;
 	vector<YYSTYPE*> tokens;
 	vector<YYLTYPE*> coords;
@@ -85,84 +68,98 @@ void test3() {
 	GeneratedParser parser(tokens);
 	Node *root = parser.parse();
 
-	cout << (root->to_string());
+	ofstream logs("results/testTree.txt", std::ofstream::out);
+	logs << (root->to_string());
 	freeLaMemory(tokens, coords, scanner);
 	delete root;
 }
 
 int main ()	{
-	int mode;
+	char mode;
+	cout << "Enter mode-flag:"
+			<< "\n";
 	cin >> mode;
+	if (mode!='t' && mode!='g' && mode!='s') {
+		cout << "The flag is not correct!" << "\n";
+		cout << "Enter 'g' to generate parser" << "\n";
+		cout << "Enter 't' to run test" << "\n";
+		cout << "Enter 's' to self-aplicability test" << "\n";
+		return 0;
+	}
 	switch (mode) {
-		case 0:
-			test0();
+	case 't':
+		{
+			string testFileName;
+			cout << "Enter path to file with test sentence:"
+					<< "\n";
+			cin >> testFileName;
+			test(testFileName);
 			break;
-		case 1:
-			test1();
+		}
+	case 'g':
+		{
+			string pathToInputGrammar;
+			string className;
+			string pathToFile;
+
+			cout << "Enter path to file with grammar " << "\n";
+			cin >> pathToInputGrammar;
+
+			cout << "Enter name of parse-class:"
+					<<"\n";
+			cin >> className;
+
+			cout << "Enter path to file:" <<"\n";
+			cin >> pathToFile;
+
+			generate(pathToInputGrammar, className, pathToFile, COMMON_PARSER);
 			break;
-		case 2:
-			test2();
+
+		}
+
+	case 's':
+		{
+			string pathToInputGrammar;
+			string className;
+			string pathToFile;
+			pathToInputGrammar = "resources/firstGrammar";
+			className = "SecondParser";
+			pathToFile = "results/SecondParser";
+			generate(pathToInputGrammar, className, pathToFile, GENERATED_PARSER);
 			break;
-		case 3:
-			test3();
-			break;
+		}
 	}
 
-	cout << "\nEND_OF_PROGRAM\n";
+	cout << "\nThe program is completed successfully!\n";
 	return 0;
 }
 
-/*unsigned int i;
-const char* filename = "inputGrammar.txt";
-std::ifstream in(filename);
-std::string contents((istreambuf_iterator<char>(in)), istreambuf_iterator<char>());
-char *buf = (char*)contents.c_str();
 
-cout << string(buf);
+/*
+#(1)
+#For self-applicability test:
+#compile and run:
+g
+resources/firstGrammar
+GeneratedParser
+results/GeneratedParser
 
-int tag ;
-YYLTYPE coords ;
-yyscan_t scanner;
+#compile and run:
+s
+#Compare GeneratedParser.cpp and SecondParser.cpp
 
-vector<YYSTYPE*> tokens;
+#(2)
+#For test of semantic rules:
+#compile and run:
+g
+resources/inputGrammar
+GeneratedParser
+results/GeneratedParser
+#compile and run:
+t
+resources/test
 
-struct Extra extra;
-cout << "Lexer...\n";
-init_scanner(buf, &scanner, &extra);
-do
-{
-	YYSTYPE *value = new YYSTYPE;
-	tag = yylex (value, &coords, scanner);
-	printf("tag:%d,name:%s \n", tag, Domains[tag]);
-	if (value->attr!=NULL && typeid(*(value->attr->__string__))== typeid(string))
-		cout << "attr: " << *(value->attr->__string__) <<"\n";
-	tokens.insert(tokens.end(), value);
-} while ( tag != 0);
-cout << "Parser...\n";
-Parser p(tokens);
-Node *root = p.parse();
+#compare results in console and analyze it
+#also you can find parse-tree in log.txt file
 
-Grammar gr(root);
-cout << gr.to_string();
-
-cout << "first set test:" << "\n";
-for (i=0;i<gr.rules->size(); i++) {
-	Rule *r = gr.rules->at(i);
-	set<int> &s = r->firstSet;
-	for (std::set<int>::iterator it = s.begin() ; it != s.end(); ++it) {
-		cout << (*it!=-1 ? string(Domains[*it])+" " : "empty ");
-	}
-	cout  << "\n";
-}
-
-
-for (vector<YYSTYPE*>::iterator it = tokens.begin() ; it != tokens.end(); ++it) {
-	if ((*it)->attr!=NULL) {
-		TYPES *t = (*it)->attr;
-		if (t->__string__!=NULL) delete t->__string__;
-		delete t;
-	}
-	delete(*it);
-}
-delete root;
-destroy_scanner(scanner);*/
+ */

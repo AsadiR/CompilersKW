@@ -9,6 +9,8 @@
 
 Generator::Generator(string inputGrammarFileName, string logsFileName, int numOfParser) {
     try {
+    	this->inputGrammarFileName = inputGrammarFileName;
+
 		std::ifstream in(inputGrammarFileName.c_str());
 		std::string contents((istreambuf_iterator<char>(in)), istreambuf_iterator<char>());
 		inputGrammar = (char*)contents.c_str();
@@ -19,6 +21,11 @@ Generator::Generator(string inputGrammarFileName, string logsFileName, int numOf
 		(*logs) << string(inputGrammar) << "\n";
 		(*logs) << "__________________________________\n";
 		lexicalAnalysis();
+
+		for (unsigned int i=0; i<tokens.size(); i++) {
+			tokenToCoord.insert(pair<YYSTYPE*,YYLTYPE*>(tokens[i],coords[i]));
+		}
+
 		(*logs).flush();
 		(*logs) << "Parsing has been started.\n";
 		switch (numOfParser) {
@@ -96,9 +103,11 @@ void Generator::generateCppParser(string className, string pathToFile) {
 	//генерим функцию parse
 	//генерим для каждого правила приватную функцию (writeRule)
 	//полагаем, что аксиома это нулевое правило
+	line_counter_for_cpp = 1;
 	this->className = className;
 	fileH = new ofstream((pathToFile + string(".h")).c_str());
-	fileCpp = new ofstream((pathToFile + string(".cpp")).c_str());
+	this->cppFileName = pathToFile + string(".cpp");
+	fileCpp = new ofstream(cppFileName.c_str());
 
 	string ucName = className;
 	transform(ucName.begin(),
@@ -133,7 +142,7 @@ void Generator::generateCppParser(string className, string pathToFile) {
 	(*fileH) << "public:"  << "\n";
 	(*fileH) << shift  << "Node* parse();" << "\n";
 	(*fileH) << shift  << className
-			<<"(vector<YYSTYPE*> t);" << "\n";
+			<<"(vector<YYSTYPE*> &t);" << "\n";
 	(*fileH) << shift  << "virtual ~" <<
 			className << "();" << "\n";
 	(*fileH) << "};" << "\n";
@@ -145,9 +154,9 @@ void Generator::generateCppParser(string className, string pathToFile) {
 
 	//includes
 	(*fileCpp) << "#include " << "\"" << className
-			<< ".h\"" << "\n";
+			<< ".h\"" << nextLineCpp();
 	//parse()
-	(*fileCpp) << "Node* " << className << "::parse() {" << "\n";
+	(*fileCpp) << "Node* " << className << "::parse() {" << nextLineCpp();
 	ManagerOfVariables manager;
 
 	if (grammar->initSemRule!=NULL)
@@ -155,49 +164,50 @@ void Generator::generateCppParser(string className, string pathToFile) {
 
 	(*fileCpp) << shift << "root = new Node(NULL, \""
 			<<  *(grammar->rules->at(0)->lpart->attr->__string__)
-			<< "\");" << "\n";
+			<< "\");" << nextLineCpp();
 
 	(*fileCpp) << shift << "parse_" << *(grammar->rules->at(0)->lpart->attr->__string__)
-			<< "(root);" << "\n";
+			<< "(root);" << nextLineCpp();
 
-	(*fileCpp) << shift << "if (sym->tag!=0)" << "\n";
-	(*fileCpp) << nShift << "throw runtime_error(\"expected EOF!\");" << "\n";
+	(*fileCpp) << shift << "if (sym->tag!=0)" << nextLineCpp();
+	(*fileCpp) << nShift << "throw runtime_error(\"expected EOF!\");" << nextLineCpp();
 
 	if (grammar->finalSemRule!=NULL)
 				writeSemRule(shift, grammar->finalSemRule, manager);
 
-	(*fileCpp) << shift << "return root;" << "\n";
-	(*fileCpp) << "}" << "\n";
+	(*fileCpp) << shift << "return root;" << nextLineCpp();
+	(*fileCpp) << "}" << nextLineCpp();
 	//next_token()
-	(*fileCpp) << "YYSTYPE* " << className  << "::next_token() {" << "\n";
-	(*fileCpp) << shift << "if (num<tokens.size())" << "\n";
-	(*fileCpp) << nShift << "return tokens[++num];" << "\n";
-	(*fileCpp) << shift << "else" << "\n";
-	(*fileCpp) << nShift << "return tokens[num];" << "\n";
-	(*fileCpp) << "}" << "\n";
+	(*fileCpp) << "YYSTYPE* " << className  << "::next_token() {" << nextLineCpp();
+	(*fileCpp) << shift << "if (num<tokens.size())" << nextLineCpp();
+	(*fileCpp) << nShift << "return tokens[++num];" << nextLineCpp();
+	(*fileCpp) << shift << "else" << nextLineCpp();
+	(*fileCpp) << nShift << "return tokens[num];" << nextLineCpp();
+	(*fileCpp) << "}" << nextLineCpp();
 	//expected_token(Node *parent, int tag)
 	(*fileCpp) << "void " << className
-			<< "::expected_token(Node *parent, int tag) {" << "\n";
-	(*fileCpp) << shift << "if (sym->tag == tag) {" << "\n";
-	(*fileCpp) << nShift << "sym = next_token();" << "\n";
-	(*fileCpp) << shift << "} else {" << "\n";
-	(*fileCpp) << nShift << "throw runtime_error(" << "\n";
-	(*fileCpp) << nnShift << "\"Unexpected_token:\"" << "\n";
-	(*fileCpp) << nnShift << "+string(Domains[sym->tag])" << "\n";
-	(*fileCpp) << nnShift << "+\" instead of: \"" << "\n";
-	(*fileCpp) << nnShift << "+string(Domains[tag])" << "\n";
-	(*fileCpp) << nnShift << "+\"\\n\");" << "\n";
-	(*fileCpp) << shift << "}" << "\n";
-	(*fileCpp) << "}" << "\n";
+			<< "::expected_token(Node *parent, int tag) {" << nextLineCpp();
+	(*fileCpp) << shift << "if (sym->tag == tag) {" << nextLineCpp();
+	(*fileCpp) << nShift << "sym = next_token();" << nextLineCpp();
+	(*fileCpp) << shift << "} else {" << nextLineCpp();
+	(*fileCpp) << nShift << "throw runtime_error(" << nextLineCpp();
+	(*fileCpp) << nnShift << "\"Unexpected_token:\"" << nextLineCpp();
+	(*fileCpp) << nnShift << "+string(Domains[sym->tag])" << nextLineCpp();
+	(*fileCpp) << nnShift << "+\" instead of: \"" << nextLineCpp();
+	(*fileCpp) << nnShift << "+string(Domains[tag])" << nextLineCpp();
+	(*fileCpp) << nnShift << "+\"\\n\");" << nextLineCpp();
+	(*fileCpp) << shift << "}" << nextLineCpp();
+	(*fileCpp) << "}" << nextLineCpp();
 	//конструктор
-	(*fileCpp) << className << "::" << className << "(vector<YYSTYPE*> t) {\n";
-	(*fileCpp) << shift << "root = NULL;" << "\n";
-	(*fileCpp) << shift << "num = 0;" << "\n";
-	(*fileCpp) << shift << "this->tokens = t;" << "\n";
-	(*fileCpp) << shift << "sym = tokens[0];" << "\n";
-	(*fileCpp) << "}" << "\n";
+	(*fileCpp) << className << "::" << className
+			<< "(vector<YYSTYPE*> &t) {" << nextLineCpp();
+	(*fileCpp) << shift << "root = NULL;" << nextLineCpp();
+	(*fileCpp) << shift << "num = 0;" << nextLineCpp();
+	(*fileCpp) << shift << "this->tokens = t;" << nextLineCpp();
+	(*fileCpp) << shift << "sym = tokens[0];" << nextLineCpp();
+	(*fileCpp) << "}" << nextLineCpp();
 	//диструктор
-	(*fileCpp) << className << "::~" << className << "() {}\n";
+	(*fileCpp) << className << "::~" << className << "() {}" << nextLineCpp();
 
 
 
@@ -236,10 +246,10 @@ void Generator::writeRule(Rule *r) {
 	string shift("\t");
 	string retType = getRetType(r);
 	(*fileCpp) << retType << " " << className << "::parse_" << *lpart
-			<< "(Node *parent) " << "{\n";
+			<< "(Node *parent) " << "{" << nextLineCpp();
 
 	if (retType!="void")
-		(*fileCpp) << shift << retType << " " << "result" << ";" << "\n";
+		(*fileCpp) << shift << retType << " " << "result" << ";" << nextLineCpp();
 
 	if (r->semRule!=NULL)
 		writeSemRule(shift, r->semRule, manager);
@@ -247,9 +257,9 @@ void Generator::writeRule(Rule *r) {
 	writeMultiAddendum("\t", r->rpart, manager);
 
 	if (retType!="void")
-		(*fileCpp) << shift << "return result" << ";" << "\n";
+		(*fileCpp) << shift << "return result" << ";" << nextLineCpp();
 
-	(*fileCpp) << "}\n";
+	(*fileCpp) << "}" << nextLineCpp();
 	(*fileCpp).flush();
 }
 
@@ -258,31 +268,31 @@ void Generator::writeMultiAddendum(string shift, MultiAddendum *ma, ManagerOfVar
 	string nnShift(nShift + "\t");
 	string nnnShift(nnShift + "\t");
 	if (ma->addendums.size()>1) {
-		(*fileCpp) << shift << "switch(sym->tag) {\n";
+		(*fileCpp) << shift << "switch(sym->tag) {" << nextLineCpp();
 		vector<Addendum*>::iterator it;
 		set<int>::iterator a_it;
 		bool emptyRuleExsists = false;
 		for (it=ma->addendums.begin(); it!=ma->addendums.end(); ++it) {
 			for (a_it=(*it)->firstSet.begin(); a_it!=(*it)->firstSet.end(); ++a_it) {
 				if (*a_it!=-1) { //пустое правило
-					(*fileCpp) << nShift << "case " << Domains[*a_it] << ":\n";
-					(*fileCpp) << nnShift << "{" << "\n";
+					(*fileCpp) << nShift << "case " << Domains[*a_it] << ":" << nextLineCpp();
+					(*fileCpp) << nnShift << "{" << nextLineCpp();
 					writeAddendum(nnnShift,(*it),manager);
-					(*fileCpp) << nnnShift << "break;\n";
-					(*fileCpp) << nnShift << "}" << "\n";
+					(*fileCpp) << nnnShift << "break;" << nextLineCpp();
+					(*fileCpp) << nnShift << "}" << nextLineCpp();
 				} else {
 					emptyRuleExsists = true;
 				}
 			}
 		}
 		if (!emptyRuleExsists) {
-			(*fileCpp) << nShift << "default:\n";
-			(*fileCpp) << nnShift << "throw runtime_error(" << "\n";
-			(*fileCpp) << nnnShift << "\"Unexpected_tokenInParseIdent:\"" << "\n";
-			(*fileCpp) << nnnShift << "+string(Domains[sym->tag])" << "\n";
-			(*fileCpp) << nnnShift << "+\"\\n\");" << "\n";
+			(*fileCpp) << nShift << "default:" << nextLineCpp();
+			(*fileCpp) << nnShift << "throw runtime_error(" << nextLineCpp();
+			(*fileCpp) << nnnShift << "\"Unexpected_tokenInParseIdent:\"" << nextLineCpp();
+			(*fileCpp) << nnnShift << "+string(Domains[sym->tag])" << nextLineCpp();
+			(*fileCpp) << nnnShift << "+\"\\n\");" << nextLineCpp();
 		}
-		(*fileCpp) << shift << "}\n";
+		(*fileCpp) << shift << "}" << nextLineCpp();
 	} else if(ma->addendums.size()==1)  {
 		writeAddendum(shift, ma->addendums[0],manager);
 	} else {
@@ -320,11 +330,11 @@ void Generator::writeFactor(string shift, Factor *f, ManagerOfVariables &manager
 								<< " " << manager.getNameOfNextVar()
 								<< " = " << "*(sym->attr->"
 								<< *(de->attrTypeToken->attr->__string__)
-								<< ");" << "\n";
+								<< ");" << nextLineCpp();
 					}
 					(*fileCpp) << shift
 							<< "expected_token(parent->addChild(new Node(parent,sym)), "
-							<< Domains[f->ident->mark] <<");\n";
+							<< Domains[f->ident->mark] <<");" << nextLineCpp();
 					break;
 				case SP_NON_TERM:
 					str = *(f->ident->attr->__string__);
@@ -334,11 +344,11 @@ void Generator::writeFactor(string shift, Factor *f, ManagerOfVariables &manager
 								<< " " << manager.getNameOfNextVar() << " = "
 								<< "parse_" << *(f->ident->attr->__string__)
 								<< "(parent->addChild(new Node(parent,\"" <<
-								*(f->ident->attr->__string__) <<"\")));" << "\n";
+								*(f->ident->attr->__string__) <<"\")));" << nextLineCpp();
 					} else {
 						(*fileCpp) << shift << "parse_" << *(f->ident->attr->__string__)
 								<< "(parent->addChild(new Node(parent,\""
-								<< str <<"\")));" << "\n";
+								<< str <<"\")));" << nextLineCpp();
 					}
 					break;
 			}
@@ -359,9 +369,9 @@ void Generator::writeFactor(string shift, Factor *f, ManagerOfVariables &manager
 				}
 				i++;
 			}
-			(*fileCpp) << ") {\n";
+			(*fileCpp) << ") {" << nextLineCpp();
 			writeMultiAddendum(nShift, f->m_addendum, manager);
-			(*fileCpp) << shift << "}" <<"\n";
+			(*fileCpp) << shift << "}" << nextLineCpp();
 			manager.endLayer();
 			break;
 		case MODE_ITERATION:
@@ -375,9 +385,9 @@ void Generator::writeFactor(string shift, Factor *f, ManagerOfVariables &manager
 				}
 				i++;
 			}
-			(*fileCpp) << ") {\n";
+			(*fileCpp) << ") {" << nextLineCpp();
 			writeMultiAddendum(nShift, f->m_addendum, manager);
-			(*fileCpp) << shift << "}" <<"\n";
+			(*fileCpp) << shift << "}" <<nextLineCpp();
 			manager.endLayer();
 			break;
 	}
@@ -429,8 +439,19 @@ void Generator::writeSemRule(string shift, YYSTYPE *semRule, ManagerOfVariables 
 		if (str[p]=='\n') continue;
 		ss << str[p];
 	}
-	ss << "\n";
-	(*fileCpp) << ss.str();
+	(*fileCpp) << shift << "#line " << tokenToCoord.at(semRule)->first_line
+			<< " \"" << inputGrammarFileName << "\"" << nextLineCpp();
+
+	(*fileCpp) << ss.str() << nextLineCpp();
+
+	(*fileCpp) << shift << "#line " << line_counter_for_cpp
+			<< " \"" << cppFileName << "\"" << nextLineCpp();
+
+}
+
+string Generator::nextLineCpp() {
+	line_counter_for_cpp++;
+	return "\n";
 }
 
 ManagerOfVariables::ManagerOfVariables() {
@@ -452,7 +473,6 @@ string ManagerOfVariables::getNameOfNextVar() {
 }
 
 string ManagerOfVariables::getNameOfVar(string cipher) {
-	//TODO: overflow on layers
 	// k - количество ^
 	// n - смещение на уровне
 	unsigned int i=0,k=0,n=0;

@@ -73,6 +73,11 @@ private:
 	ofstream *logs=NULL;
 	Node *root;
 	yyscan_t scanner;
+	map<YYSTYPE*, YYLTYPE*> tokenToCoord;
+	string inputGrammarFileName;
+	string cppFileName;
+	int line_counter_for_cpp;
+	string nextLineCpp();
 };
 
 #endif /* SRC_GENERATOR_H_ */
