@@ -1,22 +1,27 @@
 Generator constructor has been started.
-The following grammar was received from resources/inputGrammar.txt:
+The following grammar was received from resources/inputGrammar:
 __________________________________
 %{ %}
 %term <__int__> @NUMBER.
-%nonterm <__int__> expr, <__int__> addendum, <__int__> factor.
+%nonterm <__int__> expr, <__int__> addendum, 
+<__int__> factor.
 program = statement @SEMICOLON program | .
 statement = @PRINT out outlist.
 outlist= @COMMA out outlist  | .
-out =  expr %{printf("%d\n", $1);%}.
+out =  expr %{cout<<$1<<endl;%}.
 expr = addendum %{$$=$1;%} { @PLUS addendum %{$$+=$1;%} 
 			| @MINUS addendum %{$$-=$1;%} }.
 addendum = factor %{$$=$1;%} { @MULTI factor %{$$*=$1;%} 
 			| @DIVIDE factor %{$$/=$1;%} }.
 factor %{ %} = @LPAREN expr @RPAREN %{$$=$1;%}
  			| @NUMBER %{$$=$1;%}
-			| @MINUS @LPAREN expr @RPAREN %{$$=-$1;%}.
+			| @MINUS factor %{$$=-$1;%}
+			| @DIVIDE factor @COMMA factor
+				@COMMA factor @COMMA factor @DIVIDE 
+				%{if ($1 < 0) $$ = $2; else if ($1 == 0) $$ = $3; else $$ = $4;%}
+			| @MULTI factor %{$$=0; int N=0;%}
+				{ @COMMA factor %{N++; if ($^1==N) $$=$1;%} } @MULTI.		
 %{ %}
-
 
 __________________________________
 Lexical analysis has been started. Following tokens were received:
@@ -38,83 +43,102 @@ Lexical analysis has been started. Following tokens were received:
 		SP_R_TR_BRACKET( 3,34 - 3,35 )
 		SP_NON_TERM( 3,36 - 3,44 )
 		SP_COMMA( 3,44 - 3,45 )
-		SP_L_TR_BRACKET( 3,46 - 3,47 )
-		SP_TYPE( 3,47 - 3,54 )
-		SP_R_TR_BRACKET( 3,54 - 3,55 )
-		SP_NON_TERM( 3,56 - 3,62 )
-		SP_DOT( 3,62 - 3,63 )
-		SP_NON_TERM( 4,1 - 4,8 )
-		SP_EQUAL( 4,9 - 4,10 )
-		SP_NON_TERM( 4,11 - 4,20 )
-		TERM( 4,21 - 4,31 )
-		SP_NON_TERM( 4,32 - 4,39 )
-		SP_DIR_SLASH( 4,40 - 4,41 )
-		SP_DOT( 4,42 - 4,43 )
-		SP_NON_TERM( 5,1 - 5,10 )
-		SP_EQUAL( 5,11 - 5,12 )
-		TERM( 5,13 - 5,19 )
-		SP_NON_TERM( 5,20 - 5,23 )
-		SP_NON_TERM( 5,24 - 5,31 )
-		SP_DOT( 5,31 - 5,32 )
-		SP_NON_TERM( 6,1 - 6,8 )
-		SP_EQUAL( 6,8 - 6,9 )
-		TERM( 6,10 - 6,16 )
-		SP_NON_TERM( 6,17 - 6,20 )
-		SP_NON_TERM( 6,21 - 6,28 )
-		SP_DIR_SLASH( 6,30 - 6,31 )
-		SP_DOT( 6,32 - 6,33 )
-		SP_NON_TERM( 7,1 - 7,4 )
-		SP_EQUAL( 7,5 - 7,6 )
-		SP_NON_TERM( 7,8 - 7,12 )
-		SP_SEM_RULE( 7,13 - 7,36 )
-		SP_DOT( 7,36 - 7,37 )
-		SP_NON_TERM( 8,1 - 8,5 )
-		SP_EQUAL( 8,6 - 8,7 )
-		SP_NON_TERM( 8,8 - 8,16 )
-		SP_SEM_RULE( 8,17 - 8,27 )
-		SP_L_BRACE( 8,28 - 8,29 )
-		TERM( 8,30 - 8,35 )
-		SP_NON_TERM( 8,36 - 8,44 )
-		SP_SEM_RULE( 8,45 - 8,56 )
-		SP_DIR_SLASH( 9,4 - 9,5 )
-		TERM( 9,6 - 9,12 )
-		SP_NON_TERM( 9,13 - 9,21 )
-		SP_SEM_RULE( 9,22 - 9,33 )
-		SP_R_BRACE( 9,34 - 9,35 )
-		SP_DOT( 9,35 - 9,36 )
-		SP_NON_TERM( 10,1 - 10,9 )
-		SP_EQUAL( 10,10 - 10,11 )
-		SP_NON_TERM( 10,12 - 10,18 )
-		SP_SEM_RULE( 10,19 - 10,29 )
-		SP_L_BRACE( 10,30 - 10,31 )
-		TERM( 10,32 - 10,38 )
-		SP_NON_TERM( 10,39 - 10,45 )
-		SP_SEM_RULE( 10,46 - 10,57 )
-		SP_DIR_SLASH( 11,4 - 11,5 )
-		TERM( 11,6 - 11,13 )
-		SP_NON_TERM( 11,14 - 11,20 )
-		SP_SEM_RULE( 11,21 - 11,32 )
-		SP_R_BRACE( 11,33 - 11,34 )
-		SP_DOT( 11,34 - 11,35 )
-		SP_NON_TERM( 12,1 - 12,7 )
-		SP_SEM_RULE( 12,8 - 12,13 )
-		SP_EQUAL( 12,14 - 12,15 )
-		TERM( 12,16 - 12,23 )
-		SP_NON_TERM( 12,24 - 12,28 )
-		TERM( 12,29 - 12,36 )
-		SP_SEM_RULE( 12,37 - 12,47 )
-		SP_DIR_SLASH( 13,5 - 13,6 )
-		TERM( 13,7 - 13,14 )
-		SP_SEM_RULE( 13,15 - 13,25 )
-		SP_DIR_SLASH( 14,4 - 14,5 )
-		TERM( 14,6 - 14,12 )
-		TERM( 14,13 - 14,20 )
-		SP_NON_TERM( 14,21 - 14,25 )
-		TERM( 14,26 - 14,33 )
-		SP_SEM_RULE( 14,34 - 14,45 )
-		SP_DOT( 14,45 - 14,46 )
-		SP_SEM_RULE( 15,1 - 15,6 )
-		<<EOF>>( 15,6 - 17,1 )
+		SP_L_TR_BRACKET( 4,1 - 4,2 )
+		SP_TYPE( 4,2 - 4,9 )
+		SP_R_TR_BRACKET( 4,9 - 4,10 )
+		SP_NON_TERM( 4,11 - 4,17 )
+		SP_DOT( 4,17 - 4,18 )
+		SP_NON_TERM( 5,1 - 5,8 )
+		SP_EQUAL( 5,9 - 5,10 )
+		SP_NON_TERM( 5,11 - 5,20 )
+		TERM( 5,21 - 5,31 )
+		SP_NON_TERM( 5,32 - 5,39 )
+		SP_DIR_SLASH( 5,40 - 5,41 )
+		SP_DOT( 5,42 - 5,43 )
+		SP_NON_TERM( 6,1 - 6,10 )
+		SP_EQUAL( 6,11 - 6,12 )
+		TERM( 6,13 - 6,19 )
+		SP_NON_TERM( 6,20 - 6,23 )
+		SP_NON_TERM( 6,24 - 6,31 )
+		SP_DOT( 6,31 - 6,32 )
+		SP_NON_TERM( 7,1 - 7,8 )
+		SP_EQUAL( 7,8 - 7,9 )
+		TERM( 7,10 - 7,16 )
+		SP_NON_TERM( 7,17 - 7,20 )
+		SP_NON_TERM( 7,21 - 7,28 )
+		SP_DIR_SLASH( 7,30 - 7,31 )
+		SP_DOT( 7,32 - 7,33 )
+		SP_NON_TERM( 8,1 - 8,4 )
+		SP_EQUAL( 8,5 - 8,6 )
+		SP_NON_TERM( 8,8 - 8,12 )
+		SP_SEM_RULE( 8,13 - 8,32 )
+		SP_DOT( 8,32 - 8,33 )
+		SP_NON_TERM( 9,1 - 9,5 )
+		SP_EQUAL( 9,6 - 9,7 )
+		SP_NON_TERM( 9,8 - 9,16 )
+		SP_SEM_RULE( 9,17 - 9,27 )
+		SP_L_BRACE( 9,28 - 9,29 )
+		TERM( 9,30 - 9,35 )
+		SP_NON_TERM( 9,36 - 9,44 )
+		SP_SEM_RULE( 9,45 - 9,56 )
+		SP_DIR_SLASH( 10,4 - 10,5 )
+		TERM( 10,6 - 10,12 )
+		SP_NON_TERM( 10,13 - 10,21 )
+		SP_SEM_RULE( 10,22 - 10,33 )
+		SP_R_BRACE( 10,34 - 10,35 )
+		SP_DOT( 10,35 - 10,36 )
+		SP_NON_TERM( 11,1 - 11,9 )
+		SP_EQUAL( 11,10 - 11,11 )
+		SP_NON_TERM( 11,12 - 11,18 )
+		SP_SEM_RULE( 11,19 - 11,29 )
+		SP_L_BRACE( 11,30 - 11,31 )
+		TERM( 11,32 - 11,38 )
+		SP_NON_TERM( 11,39 - 11,45 )
+		SP_SEM_RULE( 11,46 - 11,57 )
+		SP_DIR_SLASH( 12,4 - 12,5 )
+		TERM( 12,6 - 12,13 )
+		SP_NON_TERM( 12,14 - 12,20 )
+		SP_SEM_RULE( 12,21 - 12,32 )
+		SP_R_BRACE( 12,33 - 12,34 )
+		SP_DOT( 12,34 - 12,35 )
+		SP_NON_TERM( 13,1 - 13,7 )
+		SP_SEM_RULE( 13,8 - 13,13 )
+		SP_EQUAL( 13,14 - 13,15 )
+		TERM( 13,16 - 13,23 )
+		SP_NON_TERM( 13,24 - 13,28 )
+		TERM( 13,29 - 13,36 )
+		SP_SEM_RULE( 13,37 - 13,47 )
+		SP_DIR_SLASH( 14,5 - 14,6 )
+		TERM( 14,7 - 14,14 )
+		SP_SEM_RULE( 14,15 - 14,25 )
+		SP_DIR_SLASH( 15,4 - 15,5 )
+		TERM( 15,6 - 15,12 )
+		SP_NON_TERM( 15,13 - 15,19 )
+		SP_SEM_RULE( 15,20 - 15,31 )
+		SP_DIR_SLASH( 16,4 - 16,5 )
+		TERM( 16,6 - 16,13 )
+		SP_NON_TERM( 16,14 - 16,20 )
+		TERM( 16,21 - 16,27 )
+		SP_NON_TERM( 16,28 - 16,34 )
+		TERM( 17,5 - 17,11 )
+		SP_NON_TERM( 17,12 - 17,18 )
+		TERM( 17,19 - 17,25 )
+		SP_NON_TERM( 17,26 - 17,32 )
+		TERM( 17,33 - 17,40 )
+		SP_SEM_RULE( 18,5 - 18,70 )
+		SP_DIR_SLASH( 19,4 - 19,5 )
+		TERM( 19,6 - 19,12 )
+		SP_NON_TERM( 19,13 - 19,19 )
+		SP_SEM_RULE( 19,20 - 19,38 )
+		SP_L_BRACE( 20,5 - 20,6 )
+		TERM( 20,7 - 20,13 )
+		SP_NON_TERM( 20,14 - 20,20 )
+		SP_SEM_RULE( 20,21 - 20,48 )
+		SP_R_BRACE( 20,49 - 20,50 )
+		TERM( 20,51 - 20,57 )
+		SP_DOT( 20,57 - 20,58 )
+		SP_SEM_RULE( 21,1 - 21,6 )
+		<<EOF>>( 21,6 - 22,1 )
 Lexical analysis has been finished.
 Parsing has been started.
 Parsing has been finished. Following parsing tree was received:
@@ -342,11 +366,59 @@ grammar
 │ │ │ └╴SP_SEM_RULE
 │ │ │ 
 │ │ ├╴SP_DIR_SLASH
+│ │ ├╴addendum
+│ │ │ ├╴factor
+│ │ │ │ └╴ident
+│ │ │ │   └╴TERM
+│ │ │ │   
+│ │ │ ├╴factor
+│ │ │ │ └╴ident
+│ │ │ │   └╴SP_NON_TERM
+│ │ │ │   
+│ │ │ └╴SP_SEM_RULE
+│ │ │ 
+│ │ ├╴SP_DIR_SLASH
+│ │ ├╴addendum
+│ │ │ ├╴factor
+│ │ │ │ └╴ident
+│ │ │ │   └╴TERM
+│ │ │ │   
+│ │ │ ├╴factor
+│ │ │ │ └╴ident
+│ │ │ │   └╴SP_NON_TERM
+│ │ │ │   
+│ │ │ ├╴factor
+│ │ │ │ └╴ident
+│ │ │ │   └╴TERM
+│ │ │ │   
+│ │ │ ├╴factor
+│ │ │ │ └╴ident
+│ │ │ │   └╴SP_NON_TERM
+│ │ │ │   
+│ │ │ ├╴factor
+│ │ │ │ └╴ident
+│ │ │ │   └╴TERM
+│ │ │ │   
+│ │ │ ├╴factor
+│ │ │ │ └╴ident
+│ │ │ │   └╴SP_NON_TERM
+│ │ │ │   
+│ │ │ ├╴factor
+│ │ │ │ └╴ident
+│ │ │ │   └╴TERM
+│ │ │ │   
+│ │ │ ├╴factor
+│ │ │ │ └╴ident
+│ │ │ │   └╴SP_NON_TERM
+│ │ │ │   
+│ │ │ ├╴factor
+│ │ │ │ └╴ident
+│ │ │ │   └╴TERM
+│ │ │ │   
+│ │ │ └╴SP_SEM_RULE
+│ │ │ 
+│ │ ├╴SP_DIR_SLASH
 │ │ └╴addendum
-│ │   ├╴factor
-│ │   │ └╴ident
-│ │   │   └╴TERM
-│ │   │   
 │ │   ├╴factor
 │ │   │ └╴ident
 │ │   │   └╴TERM
@@ -355,12 +427,27 @@ grammar
 │ │   │ └╴ident
 │ │   │   └╴SP_NON_TERM
 │ │   │   
+│ │   ├╴SP_SEM_RULE
 │ │   ├╴factor
-│ │   │ └╴ident
-│ │   │   └╴TERM
-│ │   │   
-│ │   └╴SP_SEM_RULE
-│ │   
+│ │   │ ├╴SP_L_BRACE
+│ │   │ ├╴multi_addendum
+│ │   │ │ └╴addendum
+│ │   │ │   ├╴factor
+│ │   │ │   │ └╴ident
+│ │   │ │   │   └╴TERM
+│ │   │ │   │   
+│ │   │ │   ├╴factor
+│ │   │ │   │ └╴ident
+│ │   │ │   │   └╴SP_NON_TERM
+│ │   │ │   │   
+│ │   │ │   └╴SP_SEM_RULE
+│ │   │ │   
+│ │   │ └╴SP_R_BRACE
+│ │   │ 
+│ │   └╴factor
+│ │     └╴ident
+│ │       └╴TERM
+│ │       
 │ └╴SP_DOT
 │ 
 └╴SP_SEM_RULE
@@ -373,9 +460,9 @@ __________________________________
 program  = statement  @SEMICOLON  program |  .
 statement  = @PRINT  out  outlist .
 outlist  = @COMMA  out  outlist |  .
-out  = expr %{printf("%d\n", $1);%}.
+out  = expr %{cout<<$1<<endl;%}.
 expr  = addendum %{$$=$1;%} { @PLUS  addendum %{$$+=$1;%}| @MINUS  addendum %{$$-=$1;%}} .
 addendum  = factor %{$$=$1;%} { @MULTI  factor %{$$*=$1;%}| @DIVIDE  factor %{$$/=$1;%}} .
-factor %{ %} = @LPAREN  expr  @RPAREN %{$$=$1;%}| @NUMBER %{$$=$1;%}| @MINUS  @LPAREN  expr  @RPAREN %{$$=-$1;%}.
+factor %{ %} = @LPAREN  expr  @RPAREN %{$$=$1;%}| @NUMBER %{$$=$1;%}| @MINUS  factor %{$$=-$1;%}| @DIVIDE  factor  @COMMA  factor  @COMMA  factor  @COMMA  factor  @DIVIDE %{if ($1 < 0) $$ = $2; else if ($1 == 0) $$ = $3; else $$ = $4;%}| @MULTI  factor %{$$=0; int N=0;%} { @COMMA  factor %{N++; if ($^1==N) $$=$1;%}}  @MULTI .
 %{ %}
 __________________________________
