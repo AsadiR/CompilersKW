@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;NeedlmanWucnsh_N/src/ArrayWithState.h&apos; to &apos;Cube.h&apos;" description="Rename resource &apos;ArrayWithState.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/ArrayWithState.h" name="Cube.h" stamp="1446382231540" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;NeedlmanWucnsh_N/src/ArrayWithState.cpp&apos; to &apos;Cube.cpp&apos;" description="Rename resource &apos;ArrayWithState.cpp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/ArrayWithState.cpp" name="Cube.cpp" stamp="1446382239857" updateReferences="true"/>
-</session>

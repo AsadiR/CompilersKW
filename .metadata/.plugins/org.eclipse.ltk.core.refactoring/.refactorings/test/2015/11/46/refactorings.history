@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;test/src/Generator.cpp&apos; to &apos;StartClass.cpp&apos;" description="Rename resource &apos;Generator.cpp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/Generator.cpp" name="StartClass.cpp" stamp="1447511715116" updateReferences="true"/>
-</session>

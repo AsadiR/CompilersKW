@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;Generator/Temp/copy_of_ar_gr&apos; to &apos;copy_of_ar_gr.txt&apos;" description="Rename resource &apos;copy_of_ar_gr&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Temp/copy_of_ar_gr" name="copy_of_ar_gr.txt" stamp="1445177147001" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;Generator/Temp/trash&apos; to &apos;unnesessaryPartOfLexer.txt&apos;" description="Rename resource &apos;trash&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Temp/trash" name="unnesessaryPartOfLexer.txt" stamp="1445177183542" updateReferences="true"/>
-</session>

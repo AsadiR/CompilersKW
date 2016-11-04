@@ -1,5 +1,0 @@
-#include "GeneratedParser.h"
-void GeneratedParser::parse_program(Node *parent) {
-	switch(sym->tag) {
-;		case PRINT:
-		case 

@@ -1,7 +1,0 @@
-==6761== 160 bytes in 1 blocks are definitely lost in loss record 1 of 3
-==6761==    at 0x4C2AB80: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==6761==    by 0x41671A: yyalloc(unsigned long, void*) (/home/ugin/CompilerKursworkWorkspace/test/Debug/lex.yy.cpp:2353)
-==6761==    by 0x416415: yylex_init(void**) (/home/ugin/CompilerKursworkWorkspace/test/Debug/lex.yy.cpp:2215)
-==6761==    by 0x4167A3: init_scanner(char*, void**, Extra*) (/home/ugin/CompilerKursworkWorkspace/test/Debug/lexer.l:275)
-==6761==    by 0x401F52: main (/home/ugin/CompilerKursworkWorkspace/test/Debug/../src/Generator.cpp:45)
-==6761== 

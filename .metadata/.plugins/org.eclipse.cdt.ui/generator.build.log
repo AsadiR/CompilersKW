@@ -1,6 +1,0 @@
-20:26:00 **** Incremental Build of configuration Debug for project generator ****
-make all 
-make: Цель `all' не требует выполнения команд.
-
-20:26:00 Build Finished (took 72ms)
-

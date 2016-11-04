@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;test/grammar.txt&apos; to &apos;inputGrammar.txt&apos;" description="Rename resource &apos;grammar.txt&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="grammar.txt" name="inputGrammar.txt" stamp="1446668313418" updateReferences="true"/>
-</session>

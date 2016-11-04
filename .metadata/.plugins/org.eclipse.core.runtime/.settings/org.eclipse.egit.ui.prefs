@@ -1,2 +1,0 @@
-commit_dialog_history_messages=<?xml version\="1.0" encoding\="UTF-8"?>\n<messages>\n<message>release 1.0&\#x0A;</message>\n<message>generator0 commit</message>\n<message>bad project commit</message>\n<message>added support of header&apos;s generating</message>\n<message>added inputGrammar support</message>\n<message>commit from linux</message>\n<message>getFirst method is created, but is not tested.</message>\n<message>refactoring</message>\n<message>getRule added</message>\n<message>semi realization of getRule</message>\n</messages>
-eclipse.preferences.version=1

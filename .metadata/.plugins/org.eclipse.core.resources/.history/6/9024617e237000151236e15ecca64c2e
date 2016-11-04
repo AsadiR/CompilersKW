@@ -1,8 +1,0 @@
-all:
-	g++ -c -o lex.yy.o lex.yy.c
-	g++ -o Generator.o Generator.cpp
-	g++ -c -o Parser.o Parser.cpp  
-	g++ -c -o Node.o Node.cpp
-	g++ -o Generator lex.yy.o Generator.o Node.o Parser.o
-
-	
